@@ -1,0 +1,169 @@
+#!/bin/bash
+SH_FILE="$PWD"						#脚本的文件
+BINS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"	#依赖目录
+BASE_PATH=${BINS%/*}							#脚本的目录
+LOG_FILE=$BASE_PATH/log.txt						#日记的目录
+INIT_FILE=$BINS/_init_hais_tools_				#存放变量目录
+ROM_FILE=${1}									#ROM文件
+ROM_NAME="$(basename "$ROM_FILE")"				#ROM的目录
+WORK_TMP_PATH=$BASE_PATH/11-TempWork				#存放临时文件	
+WORK_SRC_PATH=$BASE_PATH/12-SrcWork				#存放解包后等待修改的文件	
+WORK_OUT_PATH=$BASE_PATH/13-OutWork				#存放欲打包的文件
+WORK_ROM_PATH=$BASE_PATH/90-RomFile				#存放打包后的rom
+WORK_BAK_PATH=$BASE_PATH/91-BakFile				#存放修改前的备份文件
+WORK_HMO_PATH=$BASE_PATH/92-HMOFile				#存放打修改前的文件
+
+TOOLS_HMO_PATH=$BASE_PATH/00-HMO_Tools			#HMO_Tools工具路径
+TOOLS_HMO_TEMP=$TOOLS_HMO_PATH/00-HMO_Temp		#HMO_Tools工具临时目录
+
+brotli=$BINS/brotli 	
+sdat2img=$BINS/sdat2img.py
+imgextractor=$BINS/imgextractor.py
+
+#ext4fs=$BINS/make_ext4fs
+ext4fs=$BINS/make_ext4fs_sj
+img2sdat=$BINS/img2sdat.py
+rimg2sdat=$BINS/rimg2sdat.py
+
+show(){ 
+	#echo "---->${1}" | tee -a $LOG_FILE 
+	echo -e  "-->\033[32m${1}\033[0m" | tee -a $LOG_FILE 
+}
+
+getProp() { grep "$1" "${WORK_SRC_PATH}/system/system/build.prop" | cut -d "=" -f 2; }
+
+clean(){
+	show "清理遗留文件"
+	rm -rf $LOG_FILE
+	rm -rf $WORK_TMP_PATH
+	rm -rf $WORK_SRC_PATH
+	rm -rf $WORK_OUT_PATH
+	rm -rf $WORK_BAK_PATH
+}
+
+unImage(){
+	show "----------------解压 ${1} 分区----------------"
+	show "转换 ${1}.new.dat.br 为 ${1}.new.dat"
+	brotli -dj $WORK_TMP_PATH/${1}.new.dat.br | tee -a $LOG_FILE
+	show "转换 ${1}.new.dat 为 ${1}.img"
+	python3 $sdat2img $WORK_TMP_PATH/${1}.transfer.list $WORK_TMP_PATH/${1}.new.dat  $WORK_TMP_PATH/${1}.img | tee -a $LOG_FILE
+	show "取出 ${1}.img 到 $WORK_SRC_PATH/${1}/"
+	mkdir -p $WORK_SRC_PATH/${1}
+	python3 $imgextractor $WORK_TMP_PATH/${1}.img $WORK_SRC_PATH/${1}  | tee -a $LOG_FILE
+}
+
+#保持动态分区打包
+zipImage(){
+	show "----------------开始打包 ${1} 分区----------------"
+	show "正在ext4fs打包 ${1} "
+	imgSize=`cat "$WORK_SRC_PATH/${1}_size.txt"`
+	if [ "${1}" = "system" ] ;then 
+		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a / "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"
+	else
+		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a ${1} "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"
+	fi
+
+	show "正在转换 ${1}.img 为 ${1}.new.dat"
+	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
+	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
+	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
+	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
+}
+
+
+repairFsAndCtx(){	#修复 Fs 和 Ctx
+	sysFile=${2/$WORK_SRC_PATH/""}	#系统内文件路径
+	sysFile=${sysFile:1}		#去除前面的斜杠
+	#判断是 system 还是 vendor
+	repariType="system"
+	fileType="system_file"
+	if [[ ${sysFile:0:6} = "vendor"* ]] ;then repariType="vendor" ; fi
+	if [[ $sysFile = *"/xbin/"* ]] ;then fileType="${2##*/}_exec" ; fi
+	show "修复 $repariType Fs 和 Ctx -> $sysFile"
+	if [ -f $1 ] ;then 
+		path=`echo ${sysFile%/*} | sed 's#system\/##'`
+		
+		if [ `grep -c "$path" "${WORK_SRC_PATH}/${repariType}_fs_config"` == '0' ];then
+			echo "$(dirname $path)  0 0 0755" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
+			echo "$path  0 0 0755" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
+		fi
+	fi
+	
+	echo "$(echo $sysFile | sed 's/system\///') 0000 0000 00644" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
+	echo "$(echo $sysFile | sed 's/system\//\//') u:object_r:system_file:s0" >> "${WORK_SRC_PATH}/${repariType}_file_contexts"
+}
+
+deleteBack(){	#传入文件或者文件夹，单个	deleteBack 需要删除的文件.txt
+	show "删除 文件/文件夹 并备份->${1/$PWD/""}"
+	mkdir -p $WORK_BAK_PATH${1%/*}
+	mv ${WORK_SRC_PATH}${1} $WORK_BAK_PATH${1}
+}
+
+
+replaceBack(){	#替换并备份	replaceBack  新文件 旧文件，
+	#show "替换 文件 并备份 ${1/$PWD/""}"
+	backPaht=${WORK_BAK_PATH}${2/$WORK_SRC_PATH/""}
+	
+	mkdir -p ${backPaht%/*}		#创建备份路径
+	mkdir -p ${2%/*}			#创建目录到系统
+	
+	#修复权限
+	if [ "${3}" = "fs" ] ;then repairFsAndCtx ${1} ${2} ; fi
+
+	cp -r ${2} ${backPaht}		#备份文件
+	cp -r ${1} ${2}				#复制新文件夹，替换到系统
+}
+
+
+mergeEndBack(){	#传入原文件 和 需要增加的文件 mergeEndBack 原始.txt 需要加入的内容.txt
+	show "追加内容 并备份->${1}"
+	mkdir -p $WORK_BAK_PATH${1%/*}
+	cp  $WORK_SRC_PATH${1} $WORK_BAK_PATH${1}
+	cat ${2} >> $WORK_SRC_PATH${1}
+	if [ "${3}" != "" ] ;then repairFsAndCtx ${2} ; fi
+}
+
+
+doUnApk(){
+	show "反编译：${1}"
+	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
+	rm -rf $TMP_FILE_PATH
+	rm -rf $TMP_FILE_PATH.new
+	$ApkTools -r -b d -c "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
+	for file in `find ${2}/* -type f` ;do
+		doInsert $file ${TMP_FILE_PATH}
+	done
+	show "正在编译：${1}"
+	$ApkTools -r -b b -c  "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" | tee -a $LOG_FILE 
+	replaceBack "${TMP_FILE_PATH}${1}.new " "$WORK_SRC_PATH$1" 
+}
+
+
+
+
+
+
+doInsert(){
+	show "处理 ${1##*/}"
+	source $1		#读取文件变量
+	show "开始寻找插入点：$FIND_START"
+	
+	FINS_RES=$2/$SMALI_FILE
+	#FINS_RES=`find $TMP_FILE_PATH -name *.smali | xargs grep -e "$FIND_START"`
+	
+	if [ "$FINS_RES" != "" ] ; then 
+		oldStr=`sed -n "/$FIND_START/,/$FILE_END/p" $FINS_RES`
+		if [ -n "$DEFAULT_CODE" ];then oldStr=$DEFAULT_CODE ;fi
+		python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
+	
+		show "修改完成"
+		
+		else
+			show "未找到插入点：${1}"
+	fi
+}
+
+
+show "脚本初始化：${0}"

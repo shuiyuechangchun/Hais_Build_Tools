@@ -1,0 +1,43 @@
+#!/system/bin/sh
+if [ ! "$1" ]; then
+	echo "使用方法:sh $0 需加密的文件路径 文件输出路径(可缺省)"
+	exit 0
+fi
+SCRIPT="${1}"
+OUTPUT="${2}"
+MD5() { if [ -f "$1" ]; then
+	cat "${1}" | md5sum -b | cut -d" " -f1
+	return ${?}
+else
+	echo "${1}" | md5sum -b | cut -d" " -f1
+	return ${?}
+fi; }
+if [ ! "${OUTPUT}" ]; then OUTPUT="${SCRIPT}_Modified.sh"; fi
+FILE_NAME="$(basename "${OUTPUT}")"
+if [ -d $(eval ${OUTPUT%%*$FILE_NAME}) ]; then
+	head -n +1 "$0" >"${OUTPUT}"
+	echo "MD5=\"$(MD5 ${SCRIPT})\"; " >>"${OUTPUT}"
+	echo "SCRNAME=\"${SCRIPT##*/}\"; " >>"${OUTPUT}"
+	tail -n +25 "$0" >>"${OUTPUT}"
+	zip -r -j -o "${OUTPUT}.zip" "${SCRIPT}" && cat "${OUTPUT}.zip" >>"${OUTPUT}" && rm "${OUTPUT}.zip"
+else eval echo "${OUTPUT%%*$FILE_NAME} No such file or directory"; fi
+exit 0
+TMP="/data/.Hais/$$"
+PROG=$TMP/$SCRNAME
+MD5() { if [ -f "$1" ]; then
+	cat "${1}" | md5sum -b | cut -d" " -f1
+	return ${?}
+else
+	echo "${1}" | md5sum -b | cut -d" " -f1
+	return ${?}
+fi; }
+mkdir -m=rwx -p "${TMP}"
+trap 'rm -rf "${TMP}"; exit ${RESULT}' EXIT
+if (tail -n +23 "$0" >$PROG.tmp && unzip -o -d $TMP $PROG.tmp); then
+	chmod 755 "${PROG}"
+	if [ "$(MD5 ${PROG})" = "${MD5}" ]; then
+		sh "${PROG}" ${1+"$@"}
+		RESULT="$?"
+	else echo "文件损坏!" && RESULT=1; fi
+else echo "解包失败!请安装busybox!" && RESULT=1; fi
+exit

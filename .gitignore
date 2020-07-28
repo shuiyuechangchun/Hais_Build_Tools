@@ -1,0 +1,12 @@
+# Miscellaneous
+00-Bins/boot/boot.img
+00-Bins/__pycache__
+00-Bins/*.pyc
+11-TempWork/
+12-SrcWork/
+13-OutWork/
+90-RomFile/
+91-BakFile/
+92-HMOFile/
+log.txt
+?/
