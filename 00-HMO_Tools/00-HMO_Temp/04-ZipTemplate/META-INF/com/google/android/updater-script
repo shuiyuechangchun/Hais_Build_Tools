@@ -98,6 +98,10 @@ run_program("/sbin/busybox", "mount", "/vendor");
 run_program("/sbin/busybox", "mount", "/cache");
 run_program("/sbin/busybox", "mount", "/cust");
 run_program("/sbin/busybox", "mount", "/persist");
+run_program("/sbin/busybox", "rm", "-rf", "/cust");
+run_program("/sbin/busybox", "rm", "-rf", "/data/cust");
+run_program("/sbin/busybox", "rm", "-rf", "/data/dalvik-cache");
+run_program("/sbin/busybox", "rm", "-rf", "/data/system/package_cache");
 
 
 run_program("/sbin/mkdir", "/tmp/Hais/ReplaceFile", "-p");
