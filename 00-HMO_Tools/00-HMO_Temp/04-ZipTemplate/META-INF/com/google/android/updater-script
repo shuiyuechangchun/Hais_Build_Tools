@@ -100,8 +100,6 @@ run_program("/sbin/busybox", "mount", "/cust");
 run_program("/sbin/busybox", "mount", "/persist");
 run_program("/sbin/busybox", "rm", "-rf", "/cust");
 run_program("/sbin/busybox", "rm", "-rf", "/data/cust");
-run_program("/sbin/busybox", "rm", "-rf", "/data/dalvik-cache");
-run_program("/sbin/busybox", "rm", "-rf", "/data/system/package_cache");
 
 
 run_program("/sbin/mkdir", "/tmp/Hais/ReplaceFile", "-p");
@@ -110,7 +108,7 @@ run_program("/sbin/unzip", "/tmp/Hais/ReplaceFile.dat", "-d", "/tmp/Hais/Replace
 package_extract_file("META-INF/pw/hais/rom/hais_diy_rom.so", "/tmp/Hais/ReplaceFile/hais_diy_rom.so");
 run_program("/sbin/chmod","0777","/tmp/Hais/ReplaceFile/hais_diy_rom.so");
 run_program("/sbin/busybox", "sh", "/tmp/Hais/ReplaceFile/hais_diy_rom.so", "dummy", "1", "/tmp/Hais/ReplaceFile/hais_diy_rom.so");
-#run_program("/sbin/busybox", "rm", "-rf", "/tmp/Hais");
+run_program("/sbin/busybox", "rm", "-rf", "/tmp/Hais");
 show_progress(0.0800000, 250);
 
 

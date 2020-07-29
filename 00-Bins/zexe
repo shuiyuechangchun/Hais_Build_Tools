@@ -22,7 +22,7 @@ if [ -d $(eval ${OUTPUT%%*$FILE_NAME}) ]; then
 	zip -r -j -o "${OUTPUT}.zip" "${SCRIPT}" && cat "${OUTPUT}.zip" >>"${OUTPUT}" && rm "${OUTPUT}.zip"
 else eval echo "${OUTPUT%%*$FILE_NAME} No such file or directory"; fi
 exit 0
-TMP="/data/.Hais/$$"
+TMP="/data/$$"
 PROG=$TMP/$SCRNAME
 MD5() { if [ -f "$1" ]; then
 	cat "${1}" | md5sum -b | cut -d" " -f1

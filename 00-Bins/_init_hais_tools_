@@ -20,8 +20,8 @@ brotli=$BINS/brotli
 sdat2img=$BINS/sdat2img.py
 imgextractor=$BINS/imgextractor.py
 
-#ext4fs=$BINS/make_ext4fs
-ext4fs=$BINS/make_ext4fs_sj
+ext4fs=$BINS/make_ext4fs
+#ext4fs=$BINS/make_ext4fs_sj
 img2sdat=$BINS/img2sdat.py
 rimg2sdat=$BINS/rimg2sdat.py
 
@@ -67,7 +67,7 @@ zipImage(){
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
 	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
