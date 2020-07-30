@@ -134,3 +134,14 @@ git clone https://e.coding.net/hais/AndroidBuildTool/Hais_Build_Tools.git
 修改bins、binsboot权限、
 
 
+------------------------------------------------------------------------------
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.163.com/debian/ buster main non-free contrib
+deb http://mirrors.163.com/debian/ buster-updates main non-free contrib
+deb http://mirrors.163.com/debian/ buster-backports main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib
+deb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+EOF
