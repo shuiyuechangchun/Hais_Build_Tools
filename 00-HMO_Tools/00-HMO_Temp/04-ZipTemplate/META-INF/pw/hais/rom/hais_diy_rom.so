@@ -112,7 +112,7 @@ echo -e "\npm.dexopt.shared-apk=$dex2oat" >> /system/etc/prop.default
 
 
 #判断是否修改加密方式
-if [ "$Encryption" == "YES"  ];then
+if [ "$encryption" == "YES"  ];then
 	sed -i 's/secure=1/secure=0/' $WORK_SRC_PATH/vendor/default.prop
 #	sed -i 's/,verify//' $WORK_SRC_PATH/vendor/etc/fstab.qcom
 	sed -i 's/encryptable=/fileencryption=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
