@@ -15,8 +15,9 @@ pkg update
 #安装依赖
 pkg install git wget tsu zip brotli python p7zip cpio curl ncurses-utils
 #安装OpenJdk
-wget https://github.com/nibazshab/nibazshab.github.io/releases/download/08/08.deb
-dpkg -i 08.deb
+#wget https://github.com/nibazshab/nibazshab.github.io/releases/download/08/08.deb
+#dpkg -i 08.deb
+curl -sL https://raw.githubusercontent.com/yaoxiaonie/Termux-Java/master/Java-installer.sh | sh
 
 #拉取代码
 sudo git clone https://gitee.com/hais/Hais_Build_Tools.git
