@@ -1,5 +1,7 @@
 #不知名优化
 debug.sf.latch_unsignaled=1
+#默认开启ADB
+persist.service.adb.enable=1
 
 # WiFi优化功能，调整频率
 wifi.supplicant_scan_interval=180
