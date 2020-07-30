@@ -1,3 +1,54 @@
+-------------------------------------------------------------------------------------------
+pkg update                      #更新仓库
+pkg install openssh             #安装SSH
+whoami	                        #查看当前用户名
+sshd		                    #启动ssh
+echo sshd >> ~/.bashrc		    #设置自动启动
+passwd                          #修改密码
+
+#安装依赖
+pkg install git wget tsu zip brotli python p7zip cpio curl ncurses-utils
+#安装OpenJdk
+wget https://github.com/nibazshab/nibazshab.github.io/releases/download/08/08.deb
+dpkg -i 08.deb
+
+#拉取代码
+sudo git clone https://gitee.com/hais/Hais_Build_Tools.git
+#更改权限
+cd ./Hais_Build_Tools
+sudo chmod 0777 ./00-Bins/*
+sudo chmod 0777 ./00-Bins/boot/*
+
+#开始解包打包
+sudo bash ./0-UnpackRom.sh ../miuixxxxxxxx.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 0、恢复 store 的方法管理员
 add-appxpackage -register "C:\Program Files\WindowsApps\*Store*\AppxManifest.xml" -disabledevelopmentmode
 
