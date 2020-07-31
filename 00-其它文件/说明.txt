@@ -1,3 +1,68 @@
+pkg update                      #更新仓库
+pkg install openssh             #安装SSH
+whoami	                        #查看当前用户名
+sshd		                    #启动ssh
+echo sshd >> ~/.bashrc		    #设置自动启动
+passwd                          #修改密码
+
+#更换源
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list.d/game.list
+sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list.d/science.list
+pkg update
+
+#安装debianhttps://github.com/YadominJinta/atilo/blob/master/CN/README_CN.md?tdsourcetag=s_pctim_aiomsg
+echo "deb [trusted=yes arch=all] https://yadominjinta.github.io/files/ termux extras" >> $PREFIX/etc/apt/sources.list
+pkg update
+pkg in atilo-cn
+
+atilo pull debian
+atilo run debian
+
+#进入Debian修改软件源
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.163.com/debian/ buster main non-free contrib
+deb http://mirrors.163.com/debian/ buster-updates main non-free contrib
+deb http://mirrors.163.com/debian/ buster-backports main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib
+deb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
+EOF
+
+#安装软件
+apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full
+
+#拉取代码
+git clone https://gitee.com/hais/Hais_Build_Tools.git
+
+#修改权限、
+cd ./Hais_Build_Tools
+chmod 0777 ./00-Bins/*
+chmod 0777 ./00-Bins/boot/*
+
+#开始打包
+sudo bash ./0-UnpackRom.sh ../miuixxxxxxxx.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -------------------------------------------------------------------------------------------
 pkg update                      #更新仓库
 pkg install openssh             #安装SSH
@@ -107,41 +172,3 @@ sudo apt install android-sdk-libsparse-utils
 下载地址：https://f-droid.org/packages/com.termux/
 
 
------更换源-------------------------------------------
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list.d/game.list
-sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list.d/science.list
-
-
-pkg update
-
--------------设置 SSH----------------------------
-whoami	#查看当前用户名
-pkg install openssh		#安装ssh
-sshd		#启动ssh
-echo sshd >> ~/.bashrc		#设置自动启动
-远程链接   ssh u0_a196@192.168.1.5 -p 8022
-
--------------------安装debian---------------------------
-https://github.com/YadominJinta/atilo/blob/master/CN/README_CN.md?tdsourcetag=s_pctim_aiomsg
-
-安装好后启动后更换源 https://www.wanvi.net/14068.html
-sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-安装软件
-apt-get install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full
-拉取代码
-git clone https://e.coding.net/hais/AndroidBuildTool/Hais_Build_Tools.git
-修改bins、binsboot权限、
-
-
-------------------------------------------------------------------------------
-tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.163.com/debian/ buster main non-free contrib
-deb http://mirrors.163.com/debian/ buster-updates main non-free contrib
-deb http://mirrors.163.com/debian/ buster-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/ buster main non-free contrib
-deb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib
-deb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
-deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib
-EOF
