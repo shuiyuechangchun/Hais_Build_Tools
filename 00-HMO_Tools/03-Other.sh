@@ -14,6 +14,11 @@ OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/vendor/bin/init.qcom.post_boot.sh	#系统文件所在路径
 mergeEndBack $SYS_FILE $OthorFiles/init.qcom.post_boot.sh
 
+show "关闭WIFI日记文件"
+for file in `find ${OthorFiles}/init.qcom.rc/* -type f` ;do
+	doInsert $file $WORK_SRC_PATH
+done
+
 
 show "添加第三方WebView支持（需要置入WebView）"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles/framework-res.apk
@@ -23,8 +28,10 @@ zip -u $WORK_SRC_PATH$SYS_FILE "res/xml/config_webview_packages.xml"
 cd $BASE_PATH
 
 
-show "替换刷机脚本"
-ZipTemplateFiles=$TOOLS_HMO_TEMP/04-ZipTemplate	#文件来源目录
-
-replaceBack "$ZipTemplateFiles/META-INF/." "$WORK_SRC_PATH/META-INF/"
-replaceBack "$ZipTemplateFiles/firmware-update/." "$WORK_SRC_PATH/firmware-update/"
+Device=$(getProp "ro.product.system.device")
+ZipTemplateFiles=$TOOLS_HMO_TEMP/04-ZipTemplate/	#文件来源目录
+show "添加Hais脚本"
+replaceBack "$ZipTemplateFiles/0-base/META-INF/." "$WORK_SRC_PATH/META-INF/"
+show "替换 ${Device} 刷机脚本"
+replaceBack "$ZipTemplateFiles/$Device/META-INF/." "$WORK_SRC_PATH/META-INF/"
+replaceBack "$ZipTemplateFiles/$Device/firmware-update/." "$WORK_SRC_PATH/firmware-update/"

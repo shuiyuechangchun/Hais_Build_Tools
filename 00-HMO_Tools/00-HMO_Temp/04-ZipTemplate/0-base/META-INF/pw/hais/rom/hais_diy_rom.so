@@ -16,7 +16,6 @@ rm -rf /mnt/vendor/persist/lost+found
 oldMd5=`md5sum -b "/data/.hais" | cut -d" " -f1`
 newMd5=`md5sum -b "$configFile" | cut -d" " -f1`
 if [ "$oldMd5" != "$newMd5" ] || [ "$delCache" == "YES" ] ;then 
-	echo $oldMd5'!='$newMd5
 	echo '开始删除缓存，开机后重新编译'
 	rm -rf /data/dalvik-cache
 	rm -rf /data/system/package_cache
@@ -113,6 +112,7 @@ echo -e "\npm.dexopt.shared-apk=$dex2oat" >> /system/etc/prop.default
 
 #判断是否修改加密方式
 if [ "$encryption" == "YES"  ];then
+	echo "已启用强制加密"
 	sed -i 's/secure=1/secure=0/' $WORK_SRC_PATH/vendor/default.prop
 #	sed -i 's/,verify//' $WORK_SRC_PATH/vendor/etc/fstab.qcom
 	sed -i 's/encryptable=/fileencryption=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom

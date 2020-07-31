@@ -20,8 +20,8 @@ brotli=$BINS/brotli
 sdat2img=$BINS/sdat2img.py
 imgextractor=$BINS/imgextractor.py
 
-#ext4fs=$BINS/make_ext4fs
-ext4fs=$BINS/make_ext4fs_sj
+ext4fs=$BINS/make_ext4fs
+#ext4fs=$BINS/make_ext4fs_sj
 img2sdat=$BINS/img2sdat.py
 rimg2sdat=$BINS/rimg2sdat.py
 
@@ -66,8 +66,8 @@ zipImage(){
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
-	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	#brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
@@ -148,20 +148,21 @@ doUnApk(){
 doInsert(){
 	show "处理 ${1##*/}"
 	source $1		#读取文件变量
-	show "开始寻找插入点：$FIND_START"
-	
+	show "寻找插入点：$FIND_START"
 	FINS_RES=$2/$SMALI_FILE
-	#FINS_RES=`find $TMP_FILE_PATH -name *.smali | xargs grep -e "$FIND_START"`
-	
+
 	if [ "$FINS_RES" != "" ] ; then 
 		oldStr=`sed -n "/$FIND_START/,/$FILE_END/p" $FINS_RES`
 		if [ -n "$DEFAULT_CODE" ];then oldStr=$DEFAULT_CODE ;fi
-		python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
+		if [ -n "$oldStr" ];then
+			python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
+		else
+			show "无插入点段：$FILE_END"
+		fi
 	
-		show "修改完成"
 		
 		else
-			show "未找到插入点：${1}"
+			show "未找到插入文件：${1}"
 	fi
 }
 

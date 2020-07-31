@@ -1,8 +1,0 @@
-#是否重新编译APP：默认YES，可选NO
-delCache=YES
-
-#是否修改编译模式：默认 everything，可选 speed
-dex2oat=everything
-
-#是否解密Data，取消强制，默认NO，可选 YES
-Encryption=NO

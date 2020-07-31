@@ -5,4 +5,4 @@ BINS=$BASE_PATH/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
 
-bash $TOOLS_HMO_PATH/04-Smali.sh
+bash $TOOLS_HMO_PATH/03-Other.sh
