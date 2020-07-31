@@ -21,7 +21,7 @@ sdat2img=$BINS/sdat2img.py
 imgextractor=$BINS/imgextractor.py
 
 ext4fs=$BINS/make_ext4fs
-#ext4fs=$BINS/make_ext4fs_sj
+ext4fs=$BINS/make_ext4fs_sj
 img2sdat=$BINS/img2sdat.py
 rimg2sdat=$BINS/rimg2sdat.py
 
