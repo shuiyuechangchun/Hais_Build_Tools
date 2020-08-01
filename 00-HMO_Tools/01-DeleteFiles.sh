@@ -132,6 +132,7 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/seccamsample
 /system/app/greenguard
 /system/app/QColor
+/system/app/SogouInput
 /system/priv-app/dpmserviceapp
 /system/priv-app/EmergencyInfo
 /system/priv-app/UserDictionaryProvider
