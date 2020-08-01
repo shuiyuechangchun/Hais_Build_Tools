@@ -32,8 +32,8 @@ show "正在打包Rom"
 cd $WORK_OUT_PATH
 DeviceName=$(getProp "ro.product.system.device")
 RomName=${WORK_ROM_PATH}/Hais_MIUI@${DeviceName^}_$(getProp "ro.system.build.version.incremental")
-#7z a -tzip -r "$RomName" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
-zip -qr $RomName *
+7z a -tzip -r "$RomName" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
+#zip -qr $RomName *
 cd $curPath
 fileMd5=`md5sum $RomName`
 fileName="${RomName}_${fileMd5:0:8}.zip"

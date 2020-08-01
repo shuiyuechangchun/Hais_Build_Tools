@@ -66,8 +66,8 @@ zipImage(){
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
-	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	#brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
