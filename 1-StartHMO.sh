@@ -8,9 +8,9 @@ source $BINS/_init_hais_tools_		#依赖目录
 show "----------------开始执行 精简/替换 脚本----------------"
 rm -rf $WORK_BAK_PATH
 mkdir $WORK_BAK_PATH
-bash $TOOLS_HMO_PATH/01-DeleteFiles.sh | tee -a $LOG_FILE
-bash $TOOLS_HMO_PATH/02-Replace.sh | tee -a $LOG_FILE
-bash $TOOLS_HMO_PATH/03-Other.sh | tee -a $LOG_FILE
-bash $TOOLS_HMO_PATH/04-Smali.sh | tee -a $LOG_FILE
+bash $TOOLS_HMO_PATH/01-DeleteFiles.sh
+bash $TOOLS_HMO_PATH/02-Replace.sh
+bash $TOOLS_HMO_PATH/03-Other.sh
+bash $TOOLS_HMO_PATH/04-Smali.sh
 
 bash ./2-BuildRom.sh

@@ -30,16 +30,20 @@ mv -f $shFile.zexe $shFile.so
 mkdir -p $WORK_ROM_PATH
 show "正在打包Rom"
 cd $WORK_OUT_PATH
-RomName=${WORK_ROM_PATH}/HaisTeam@$(getProp "ro.product.system.device")_$(getProp "ro.system.build.version.incremental")
-7z a -tzip -r "$RomName" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
-#zip -qr $RomName *
+DeviceName=$(getProp "ro.product.system.device")
+RomName=${WORK_ROM_PATH}/Hais_MIUI@${DeviceName^}_$(getProp "ro.system.build.version.incremental")
+#7z a -tzip -r "$RomName" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
+zip -qr $RomName *
 cd $curPath
 fileMd5=`md5sum $RomName`
 fileName="${RomName}_${fileMd5:0:8}.zip"
 mv $RomName $fileName
 echo "输出包：$fileName"
+name=${DeviceName^}_$(getProp "ro.system.build.version.incremental")
+echo "正在上传$name.."
+updateInfo=$(python3 ./00-Bins/wss.py upload "$fileName")
+curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=${name}&desp=${updateInfo}"
 exit
-clean
 
 #加密Zip包
 #java -jar $curPath/bin/ZipCenOp.jar e $fileName

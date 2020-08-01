@@ -27,7 +27,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/HTMLViewer
 /system/app/HybridAccessory
 /system/app/HybridPlatform
-/system/app/KeyChain
 /system/app/KSICibaEngine
 /system/app/mab
 /system/app/MetokNLP
