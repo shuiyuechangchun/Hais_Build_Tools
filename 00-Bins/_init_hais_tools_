@@ -6,7 +6,7 @@ LOG_FILE=$BASE_PATH/log.txt						#日记的目录
 INIT_FILE=$BINS/_init_hais_tools_				#存放变量目录
 ROM_FILE=${1}									#ROM文件
 ROM_NAME="$(basename "$ROM_FILE")"				#ROM的目录
-WORK_TMP_PATH=$BASE_PATH/11-TempWork				#存放临时文件	
+WORK_TMP_PATH=$BASE_PATH/11-TempWork			#存放临时文件	
 WORK_SRC_PATH=$BASE_PATH/12-SrcWork				#存放解包后等待修改的文件	
 WORK_OUT_PATH=$BASE_PATH/13-OutWork				#存放欲打包的文件
 WORK_ROM_PATH=$BASE_PATH/90-RomFile				#存放打包后的rom
@@ -21,13 +21,12 @@ sdat2img=$BINS/sdat2img.py
 imgextractor=$BINS/imgextractor.py
 
 ext4fs=$BINS/make_ext4fs
-ext4fs=$BINS/make_ext4fs_sj
+#ext4fs=$BINS/make_ext4fs_sj
 img2sdat=$BINS/img2sdat.py
 rimg2sdat=$BINS/rimg2sdat.py
 
 show(){ 
-	#echo "---->${1}" | tee -a $LOG_FILE 
-	echo -e  "-->\033[32m${1}\033[0m" | tee -a $LOG_FILE 
+	echo  -e `date '+%H:%M:%S'`"-->\033[32m${1}\033[0m" | tee -a $LOG_FILE 
 }
 
 getProp() { grep "$1" "${WORK_SRC_PATH}/system/system/build.prop" | cut -d "=" -f 2; }
@@ -52,8 +51,7 @@ unImage(){
 	python3 $imgextractor $WORK_TMP_PATH/${1}.img $WORK_SRC_PATH/${1}  | tee -a $LOG_FILE
 }
 
-#保持动态分区打包
-zipImage(){
+zipImage(){ #保持动态分区打包
 	show "----------------开始打包 ${1} 分区----------------"
 	show "正在ext4fs打包 ${1} "
 	imgSize=`cat "$WORK_SRC_PATH/${1}_size.txt"`
@@ -126,7 +124,7 @@ mergeEndBack(){	#传入原文件 和 需要增加的文件 mergeEndBack 原始.t
 }
 
 
-doUnApk(){
+doUnApk(){	#反编译软件修改
 	show "反编译：${1}"
 	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
 	rm -rf $TMP_FILE_PATH
@@ -145,7 +143,7 @@ doUnApk(){
 
 
 
-doInsert(){
+doInsert(){		#插入文件替换内容
 	show "处理 ${1##*/}"
 	source $1		#读取文件变量
 	show "寻找插入点：$FIND_START"
@@ -164,6 +162,33 @@ doInsert(){
 		else
 			show "未找到插入文件：${1}"
 	fi
+}
+
+
+createMagisk(){  #创建Magisk面具模块
+	DeviceName=$(getProp "ro.product.system.device")
+	RomVersion=$(getProp "ro.system.build.version.incremental")
+	RomPath=${WORK_ROM_PATH}/${DeviceName^}_${RomVersion}
+	NowDay=$(date "+%Y%m%d")
+
+	MagiskName="$1"
+	MagiskFileName="Magisk@${MagiskName}_${DeviceName^}_${RomVersion}"
+	MagiskPath=$WORK_TMP_PATH/$MagiskFileName
+	show "正在打包 $MagiskFileName"
+	rm -rf "${MagiskPath}"
+	mkdir -p "$MagiskPath"
+	unzip -o $TOOLS_HMO_TEMP/Magisk_Template.zip -d "$MagiskPath"
+	sed -i "s/name=HaisMagiskTmp/name=${MagiskName}/" $MagiskPath/module.prop
+	sed -i "s/version=0/version=${RomVersion}/" $MagiskPath/module.prop
+	sed -i "s/versionCode=0/versionCode=${NowDay}/" $MagiskPath/module.prop
+	for file in $2 ; do
+		path=$(dirname ${file/$WORK_BAK_PATH\/system/$MagiskPath})
+		mkdir -p $path
+		cp -rp "${file}" $path
+	done
+	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9  | tee -a $LOG_FILE
+	mkdir "${RomPath}/Magisk面具恢复包"
+	mv ${MagiskPath}.zip "${RomPath}/Magisk面具恢复包"
 }
 
 

@@ -33,7 +33,7 @@ rm -rf $WORK_SRC_PATH/system/system/recovery-from-boot.p
 mv -f  $WORK_TMP_PATH/boot.img -t $BINS/boot/
 $BINS/boot/unpackimg.sh >> $LOG_FILE
 $BINS/boot/repackimg.sh >> $LOG_FILE
-cp -rf $BINS/boot/image-new.img $WORK_OUT_PATH/boot.img
+mv -f $BINS/boot/image-new.img $WORK_OUT_PATH/boot.img
 bash $BINS/boot/cleanup.sh
 
 sed -i 's/secure=0/secure=1/' $WORK_SRC_PATH/vendor/default.prop

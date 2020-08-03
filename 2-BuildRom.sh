@@ -26,23 +26,45 @@ shFile=$WORK_OUT_PATH/META-INF/pw/hais/rom/hais_diy_rom
 echo `sh $BINS/zexe $shFile.so $shFile.zexe`
 mv -f $shFile.zexe $shFile.so
 
-#重命名
-mkdir -p $WORK_ROM_PATH
-show "正在打包Rom"
-cd $WORK_OUT_PATH
+#开始打包ROM
 DeviceName=$(getProp "ro.product.system.device")
-RomName=${WORK_ROM_PATH}/Hais_MIUI@${DeviceName^}_$(getProp "ro.system.build.version.incremental")
-7z a -tzip -r "$RomName" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
-#zip -qr $RomName *
-cd $curPath
-fileMd5=`md5sum $RomName`
+RomVersion=$(getProp "ro.system.build.version.incremental")
+show "正在打包 ${DeviceName}_${RomVersion}"
+RomPath=$WORK_ROM_PATH/${DeviceName^}_${RomVersion}
+rm -rf $RomPath
+mkdir -p $RomPath
+
+RomName="Hais@${DeviceName^}_${RomVersion}"
+7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=1  | tee -a $LOG_FILE
+#zip -qr "${WORK_TMP_PATH}/${RomName}.tmp" $WORK_OUT_PATH
+
+fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
 fileName="${RomName}_${fileMd5:0:8}.zip"
-mv $RomName $fileName
-echo "输出包：$fileName"
-name=${DeviceName^}_$(getProp "ro.system.build.version.incremental")
-echo "正在上传$name.."
-updateInfo=$(python3 ./00-Bins/wss.py upload "$fileName")
-curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=${name}&desp=${updateInfo}"
+mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
+
+bash ./3-CreateMagisk.sh
+
+mv "${LOG_FILE}" "${RomPath}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit
+
+echo "正在上传：$fileName"
+RomInfo=$(python3 ./00-Bins/wss.py upload "$fileName")
+curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}&desp=${updateInfo}"
 exit
 
 #加密Zip包

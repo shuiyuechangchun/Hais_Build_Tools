@@ -23,8 +23,8 @@ doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Set
 doUnApk "/system/system/framework/services.jar" "$SMALI_TEMP/services.jar"
 
 #破解主题 ThemeManager.apk miuisystem.apk
-#doUnApk "/system/system/app/miuisystem/miuisystem.apk" "$SMALI_TEMP/miuisystem.apk"
-#doUnApk "/system/system/app/ThemeManager/ThemeManager.apk" "$SMALI_TEMP/ThemeManager.apk"
+doUnApk "/system/system/app/miuisystem/miuisystem.apk" "$SMALI_TEMP/miuisystem.apk"
+doUnApk "/system/system/app/ThemeManager/ThemeManager.apk" "$SMALI_TEMP/ThemeManager.apk"
 
 
 

@@ -5,7 +5,11 @@ if [ ! -d $configFile ];then touch $configFile;fi
 source $configFile		#导入变量
 
 #删除多余文件
-#rm -rf /system_root/debug_ramdisk
+busybox rm -rf /system_root/lost+found
+busybox rm -rf /cache/lost+found
+busybox rm -rf /data/lost+found
+busybox rm -rf /data/magisk_backup_*
+busybox rm -rf /mnt/vendor/persist/lost+found
 rm -rf /system_root/lost+found
 rm -rf /cache/lost+found
 rm -rf /data/lost+found
@@ -91,35 +95,5 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 		chmod 644 /$sysfile					#修复权限
 	done
 	
-
-#执行部分Prop优化，在文件末尾追加
-if [ ! -n "$dex2oat" ];then dex2oat='everything';fi
-echo "- 优化编译模式为 $dex2oat "
-echo -e "\npm.dexopt.install=$dex2oat" >> /system/build.prop
-echo -e "\npm.dexopt.first-boot=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.boot=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.install=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.bg-dexopt=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.ab-ota=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.inactive=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.shared=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.bg-dexopt=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.core-app=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.forced-dexopt=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.nsys-library=$dex2oat" >> /system/etc/prop.default
-echo -e "\npm.dexopt.shared-apk=$dex2oat" >> /system/etc/prop.default
-
-
-#判断是否修改加密方式
-if [ "$encryption" == "YES"  ];then
-	echo "已启用强制加密"
-	sed -i 's/secure=1/secure=0/' $WORK_SRC_PATH/vendor/default.prop
-#	sed -i 's/,verify//' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-	sed -i 's/encryptable=/fileencryption=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-	sed -i 's/encryptable=/fileencryption=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-	sed -i 's/encryptable=/fileencryption=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-	sed -i 's/.dmverity=false/.dmverity=true/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-fi
-
 #备份配置文件
 cp $configFile /data/

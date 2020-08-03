@@ -8,6 +8,18 @@ OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/build.prop	#系统文件所在路径
 mergeEndBack $SYS_FILE $OthorFiles/system.prop
 
+show "优化 prop.default 文件"
+OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
+SYS_FILE=/system/system/etc/prop.default	#系统文件所在路径
+mergeEndBack $SYS_FILE $OthorFiles/prop.default
+#修改编译模式
+sed -i '/pm.dexopt.first-boot=quicken/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.boot=verify/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.install=speed-profile/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.bg-dexopt=speed-profile/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.ab-ota=speed-profile/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.inactive=verify/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/pm.dexopt.shared=speed/d' $WORK_SRC_PATH/$SYS_FILE
 
 show "关闭日记文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
