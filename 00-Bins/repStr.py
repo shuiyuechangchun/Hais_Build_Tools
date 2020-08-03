@@ -10,7 +10,7 @@ print(old)
 print('目标代码块')
 print(new)
 
-with open(file, 'r+') as f:
+with open(u'/'+file, 'r+') as f:
 	content = f.read()
 	f.seek(0,0)
 	f.truncate()

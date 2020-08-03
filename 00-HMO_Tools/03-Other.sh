@@ -8,6 +8,7 @@ OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/build.prop	#系统文件所在路径
 mergeEndBack $SYS_FILE $OthorFiles/system.prop
 
+
 show "优化 prop.default 文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/etc/prop.default	#系统文件所在路径
@@ -20,6 +21,11 @@ sed -i '/pm.dexopt.bg-dexopt=speed-profile/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/pm.dexopt.ab-ota=speed-profile/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/pm.dexopt.inactive=verify/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/pm.dexopt.shared=speed/d' $WORK_SRC_PATH/$SYS_FILE
+#杂七杂八
+sed -i '/ro.secureboot.devicelock=1/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/persist.sys.usb.config=none/d' $WORK_SRC_PATH/$SYS_FILE
+
+
 
 show "关闭日记文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录

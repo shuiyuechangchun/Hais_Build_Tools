@@ -151,7 +151,7 @@ doInsert(){		#插入文件替换内容
 
 	if [ "$FINS_RES" != "" ] ; then 
 		oldStr=`sed -n "/$FIND_START/,/$FILE_END/p" $FINS_RES`
-		if [ -n "$DEFAULT_CODE" ];then oldStr=$DEFAULT_CODE ;fi
+		if [ ! -n "$FIND_START" ];then oldStr=$DEFAULT_CODE ;fi
 		if [ -n "$oldStr" ];then
 			python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
 		else

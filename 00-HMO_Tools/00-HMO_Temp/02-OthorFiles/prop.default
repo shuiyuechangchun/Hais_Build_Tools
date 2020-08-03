@@ -56,3 +56,4 @@ trustkernel.log.state=disable
 dalvik.vm.dex2oat-minidebuginfo=false
 ro.ril.fast.dormancy.rule=0
 persist.dpm.loglevel=0
+persist.sys.usb.config=mtp,adb
