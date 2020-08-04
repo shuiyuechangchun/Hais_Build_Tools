@@ -64,8 +64,8 @@ zipImage(){ #保持动态分区打包
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
-	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	#brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
@@ -157,11 +157,14 @@ doInsert(){		#插入文件替换内容
 		else
 			show "无插入点段：$FILE_END"
 		fi
-	
-		
-		else
-			show "未找到插入文件：${1}"
+	else
+		show "未找到插入文件：${1}"
 	fi
+	
+	SMALI_FILE=""
+	FIND_START=""
+	DEFAULT_CODE=""
+	REPLACE_CODE=""
 }
 
 

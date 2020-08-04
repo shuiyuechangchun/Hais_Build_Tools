@@ -17,7 +17,7 @@ $ApkTools if $WORK_SRC_PATH/system/system/app/miui/miui.apk
 doUnApk "/system/system/apex/com.android.runtime.release/javalib/core-oj.jar" "$SMALI_TEMP/core-oj.jar"
 doUnApk "/system/system/framework/framework.jar" "$SMALI_TEMP/framework.jar"
 doUnApk "/system/system/framework/services.jar" "$SMALI_TEMP/services.jar"
-exit
+
 #破解桌面 MiuiHome.apk
 doUnApk "/system/system/priv-app/MiuiHome/MiuiHome.apk" "$SMALI_TEMP/MiuiHome.apk"
 

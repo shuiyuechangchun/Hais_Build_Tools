@@ -5,10 +5,8 @@ FILE_END='.end method'																	#解压后要查找的结束代码
 #要替换的内容
 REPLACE_CODE='
 .method private checkSystemSelfProtection(Z)V
-	.locals 1
-	.param p1, "onlyCore"    # Z
-	.line 748
-	return-void
-.end method
+    .locals 1
 
+    return-void
+.end method
 '
