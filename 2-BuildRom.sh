@@ -29,8 +29,13 @@ mv -f $shFile.zexe $shFile.so
 #开始打包ROM
 DeviceName=$(getProp "ro.product.system.device")
 RomVersion=$(getProp "ro.system.build.version.incremental")
+if [ "$DeviceName" == "raphael" ]; then DevicePathName= "RedMi_K20P_Raphael" ; fi
+if [ "$DeviceName" == "cepheus" ]; then DevicePathName= "XiaoMi_Mi9_Cepheus" ; fi
+if [ "$DeviceName" == "dipper" ]; then DevicePathName= "XiaoMi_Mi8_Dipper" ; fi
+if [ "$DeviceName" == "polaris" ]; then DevicePathName= "XiaoMi_Mix2s_Polaris" ; fi
+
 show "正在打包 ${DeviceName}_${RomVersion}"
-RomPath=$WORK_ROM_PATH/${DeviceName^}_${RomVersion}
+RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 rm -rf $RomPath
 mkdir -p $RomPath
 
@@ -46,7 +51,10 @@ bash ./3-CreateMagisk.sh
 
 mv "${LOG_FILE}" "${RomPath}"
 
+python3 ../cloud189/main.py upload $WORK_ROM_PATH
 
+
+curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}"
 
 
 
