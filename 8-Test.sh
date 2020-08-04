@@ -7,4 +7,4 @@ SMALI_TEMP=$TOOLS_HMO_TEMP/03-SmailTemplate			#Smail模板目录
 ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
 
-doUnApk "/system/system/apex/com.android.conscrypt/javalib/conscrypt.jar" "$SMALI_TEMP/conscrypt.jar"
+doUnApk "/system/system/apex/com.android.runtime.release/javalib/core-oj.jar" "$SMALI_TEMP/core-oj.jar"

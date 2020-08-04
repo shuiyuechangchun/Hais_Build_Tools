@@ -13,7 +13,7 @@ $WORK_BAK_PATH/system/system/app/CatcherPatch
 "
 
 
-mv -r "$WORK_BAK_PATH/system/system/data-app/XiaoAiSpeechEngine" "$WORK_BAK_PATH/system/system/app/XiaoAiSpeechEngine"
+mv -f "$WORK_BAK_PATH/system/system/data-app/XiaoAiSpeechEngine" "$WORK_BAK_PATH/system/system/app/XiaoAiSpeechEngine"
 createMagisk "小爱语音恢复" "
 $WORK_BAK_PATH/system/system/app/VoiceAssist
 $WORK_BAK_PATH/system/system/app/XiaoAiSpeechEngine

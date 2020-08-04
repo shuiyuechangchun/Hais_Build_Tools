@@ -125,16 +125,17 @@ mergeEndBack(){	#传入原文件 和 需要增加的文件 mergeEndBack 原始.t
 
 
 doUnApk(){	#反编译软件修改
+	AndroidApi=$(getProp 'ro.build.version.sdk')
 	show "反编译：${1}"
 	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
 	rm -rf $TMP_FILE_PATH
 	rm -rf $TMP_FILE_PATH.new
-	$ApkTools -r -b d -c "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
+	$ApkTools -r -b d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
 	show "正在编译：${1}"
-	$ApkTools -r -b b -c  "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" | tee -a $LOG_FILE 
+	$ApkTools -r -b b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" | tee -a $LOG_FILE 
 	replaceBack "${TMP_FILE_PATH}${1}.new " "$WORK_SRC_PATH$1" 
 }
 
