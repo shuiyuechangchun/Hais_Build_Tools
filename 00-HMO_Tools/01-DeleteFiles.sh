@@ -173,7 +173,9 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/media/audio/alarms/Breeze.ogg
 /system/media/audio/alarms/Chimes.ogg
 /system/media/audio/alarms/Morning.ogg
-/system/media/audio/alarms/Sunrise.ogg"
+/system/media/audio/alarms/Sunrise.ogg
+/system/etc/fake_cdrom_install.iso
+/verity_key"
 
 DELETE_VENDOR="/vendor/app/GFManager/
 /vendor/app/aiasst_service/

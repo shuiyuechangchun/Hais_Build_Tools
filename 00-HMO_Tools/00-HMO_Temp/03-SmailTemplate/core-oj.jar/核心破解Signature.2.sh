@@ -7,8 +7,8 @@ REPLACE_CODE='
 .method public final verify([B)Z
     .locals 2
 	
-    const/4 v1, 0x1
+    const/4 v0, 0x1
 	
-    return v1
+    return v0
 .end method	
 '

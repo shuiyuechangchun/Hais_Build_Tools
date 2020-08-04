@@ -5,10 +5,10 @@ FILE_END='.end method'																	#解压后要查找的结束代码
 #要替换的内容
 REPLACE_CODE='
 .method public static isEqual([B[B)Z
-    .locals 6
-
-	const/4 v1, 0x1
-
-    return v1
+    .locals 8
+	
+	const/4 v0, 0x1
+	
+    return v0
 .end method
 '

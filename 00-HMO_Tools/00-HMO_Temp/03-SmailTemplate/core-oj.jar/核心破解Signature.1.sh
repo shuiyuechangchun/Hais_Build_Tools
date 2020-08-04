@@ -6,9 +6,9 @@ FILE_END='.end method'																	#解压后要查找的结束代码
 REPLACE_CODE='
 .method public final verify([BII)Z
     .locals 2
+
+    const/4 v0, 0x1
 	
-    const/4 v1, 0x1
-	
-    return v1
+    return v0
 .end method	
 '

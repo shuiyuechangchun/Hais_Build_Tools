@@ -13,10 +13,12 @@ $ApkTools if $WORK_SRC_PATH/system/system/app/miuisystem/miuisystem.apk
 $ApkTools if $WORK_SRC_PATH/system/system/app/miui/miui.apk
 
 
-#核心破解跟卡米  core-oj.jar framework.jar services.jar
-doUnApk "/system/system/apex/com.android.runtime.release/javalib/core-oj.jar" "$SMALI_TEMP/core-oj.jar"
+#核心破解跟卡米  core-oj.jar framework.jar 、、services.jar conscrypt.jar miuisystemsdk@boot.jar
 doUnApk "/system/system/framework/framework.jar" "$SMALI_TEMP/framework.jar"
+doUnApk "/system/system/apex/com.android.runtime.release/javalib/core-oj.jar" "$SMALI_TEMP/core-oj.jar"
+doUnApk "/system/system/apex/com.android.conscrypt/javalib/conscrypt.jar" "$SMALI_TEMP/conscrypt.jar"
 doUnApk "/system/system/framework/services.jar" "$SMALI_TEMP/services.jar"
+doUnApk "/system/system/framework/miuisystemsdk@boot.jar" "$SMALI_TEMP/miuisystemsdk@boot.jar"
 
 #破解桌面 MiuiHome.apk
 doUnApk "/system/system/priv-app/MiuiHome/MiuiHome.apk" "$SMALI_TEMP/MiuiHome.apk"
@@ -28,8 +30,8 @@ doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Set
 #破解主题 ThemeManager.apk miuisystem.apk
 doUnApk "/system/system/app/miuisystem/miuisystem.apk" "$SMALI_TEMP/miuisystem.apk"
 doUnApk "/system/system/app/ThemeManager/ThemeManager.apk" "$SMALI_TEMP/ThemeManager.apk"
-mkdir -p $WORK_SRC_PATH/system/system/app/ThemeManager/lib/
-cp -r $WORK_TMP_PATH/ThemeManager.apk/lib/arm64-v8a $WORK_SRC_PATH/system/system/app/ThemeManager/lib/arm64
+cp -r $WORK_TMP_PATH/ThemeManager.apk/lib/arm64-v8a $WORK_TMP_PATH/ThemeManager.apk/lib/arm64
+7z a $WORK_SRC_PATH/system/system/app/ThemeManager/ThemeManager.apk $WORK_TMP_PATH/ThemeManager.apk/lib
 
 
 

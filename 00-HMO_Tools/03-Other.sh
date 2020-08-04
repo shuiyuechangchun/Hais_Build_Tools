@@ -24,6 +24,7 @@ sed -i '/pm.dexopt.shared=speed/d' $WORK_SRC_PATH/$SYS_FILE
 #杂七杂八
 sed -i '/ro.secureboot.devicelock=1/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/persist.sys.usb.config=none/d' $WORK_SRC_PATH/$SYS_FILE
+sed -i '/ro.secure=1/d' $WORK_SRC_PATH/$SYS_FILE
 
 
 
