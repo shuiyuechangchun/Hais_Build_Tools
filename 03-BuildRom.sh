@@ -35,6 +35,7 @@ if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
 if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
 if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
 if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
+if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi9Explorer_Ursa" ; fi
 
 show "正在打包 ${DeviceName}_${RomVersion}"
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}

@@ -178,6 +178,7 @@ createMagisk(){  #创建Magisk面具模块
 	if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
 	if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
 	if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
+	if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi9Explorer_Ursa" ; fi
 
 	RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 	NowDay=$(date "+%Y%m%d")
