@@ -176,6 +176,7 @@ createMagisk(){  #创建Magisk面具模块
 	if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
 	if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
 	if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
+	if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
 
 	RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 	NowDay=$(date "+%Y%m%d")
