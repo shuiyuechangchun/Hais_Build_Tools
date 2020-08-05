@@ -64,8 +64,8 @@ zipImage(){ #保持动态分区打包
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
-	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	#brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	#brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
@@ -131,8 +131,6 @@ doUnApk(){	#反编译软件修改
 	rm -rf $TMP_FILE_PATH
 	rm -rf $TMP_FILE_PATH.new
 	$ApkTools -r -b d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
-    cp -rf "$TMP_FILE_PATH/smali_classes*/*" "$TMP_FILE_PATH/smali/"
-    rm -rf "$TMP_FILE_PATH/smali_classes2/*"
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
@@ -174,7 +172,12 @@ doInsert(){		#插入文件替换内容
 createMagisk(){  #创建Magisk面具模块
 	DeviceName=$(getProp "ro.product.system.device")
 	RomVersion=$(getProp "ro.system.build.version.incremental")
-	RomPath=${WORK_ROM_PATH}/${DeviceName^}_${RomVersion}
+	if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
+	if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
+	if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
+	if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
+
+	RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 	NowDay=$(date "+%Y%m%d")
 
 	MagiskName="$1"
@@ -193,7 +196,7 @@ createMagisk(){  #创建Magisk面具模块
 		cp -rp "${file}" $path
 	done
 	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9  | tee -a $LOG_FILE
-	mkdir "${RomPath}/Magisk面具恢复包"
+	mkdir -p "${RomPath}/Magisk面具恢复包"
 	mv ${MagiskPath}.zip "${RomPath}/Magisk面具恢复包"
 }
 
