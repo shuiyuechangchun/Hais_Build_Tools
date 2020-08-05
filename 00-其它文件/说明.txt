@@ -32,10 +32,13 @@ deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free con
 EOF
 
 #安装软件
-apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full
+apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full 
 
 #拉取代码
 git clone https://gitee.com/hais/Hais_Build_Tools.git
+
+#安装 python3.8 https://www.itgeeker.net/ubuntu-debian-raspbian-install-python3-8-use-source-code-complier/
+sudo apt install python3-pip
 
 #修改权限、
 cd ./Hais_Build_Tools

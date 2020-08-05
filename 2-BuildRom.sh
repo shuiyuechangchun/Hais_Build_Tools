@@ -51,7 +51,7 @@ bash ./3-CreateMagisk.sh
 
 mv "${LOG_FILE}" "${RomPath}"
 
-python3 ../cloud189/main.py upload $WORK_ROM_PATH
+#python3 ../cloud189/main.py upload $WORK_ROM_PATH
 
 
 curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}"
