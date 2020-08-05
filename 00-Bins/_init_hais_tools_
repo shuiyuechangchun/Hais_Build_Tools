@@ -131,7 +131,8 @@ doUnApk(){	#反编译软件修改
 	rm -rf $TMP_FILE_PATH
 	rm -rf $TMP_FILE_PATH.new
 	$ApkTools -r -b d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
-	mv -f "$TMP_FILE_PATH/smali_classes2/*" "$TMP_FILE_PATH/smali"
+    cp -rf "$TMP_FILE_PATH/smali_classes*/*" "$TMP_FILE_PATH/smali/"
+    rm -rf "$TMP_FILE_PATH/smali_classes2/*"
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
