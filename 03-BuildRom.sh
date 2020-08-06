@@ -46,7 +46,7 @@ rm -rf $RomPath
 mkdir -p $RomPath
 
 RomName="Hais@${DeviceName^}_${RomVersion}"
-7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=9  | tee -a $LOG_FILE
+7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL}  | tee -a $LOG_FILE
 #zip -qr "${WORK_TMP_PATH}/${RomName}.tmp" $WORK_OUT_PATH
 
 fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
