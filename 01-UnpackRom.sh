@@ -4,14 +4,9 @@ BASE_PATH=$(dirname $SH_FILE)		#脚本的目录
 BINS=$BASE_PATH/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
-if [ $ROM_FILE = "" ] ; then show "请传入ROM路径";exit;fi;
-
-
-clean | mkdir -p $WORK_TMP_PATH
-
 
 show "解压 ROM 到 $WORK_SRC_PATH"
-unzip -d $WORK_TMP_PATH  $ROM_FILE | tee -a $LOG_FILE
+7za x $ROM_FILE -o$WORK_TMP_PATH >$LOG_FILE
 unImage system &
 unImage vendor &
 wait
@@ -46,13 +41,11 @@ sed -i 's/.dmverity=true/.dmverity=false/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
 
 show "分发文件到目录，结束解包流程"
 
-rm -rf $WORK_TMP_PATH/system.img $WORK_TMP_PATH/vendor.img 	#$WORK_TMP_PATH/boot.img
+rm -rf $WORK_TMP_PATH/system.img $WORK_TMP_PATH/vendor.img 
 mv -f $WORK_TMP_PATH/system_file_contexts $WORK_TMP_PATH/system_fs_config -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/vendor_file_contexts $WORK_TMP_PATH/vendor_fs_config -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/system.patch.dat $WORK_TMP_PATH/vendor.patch.dat -t $WORK_OUT_PATH/ 
-#mv -f $WORK_TMP_PATH/boot.img -t $WORK_OUT_PATH/
 mv -f $WORK_TMP_PATH/firmware-update -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/META-INF -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/compatibility.zip $WORK_OUT_PATH/ 
-rm -rf $WORK_TMP_PATH
 

@@ -17,8 +17,9 @@ if sys.hexversion < 0x02070000:
     except NameError: pass
     input('Press ENTER to exit...')
     sys.exit(1)
-else:
-    print('sdat2img binary - version: %s\n' % __version__)
+# Hais注释，不给输出
+#else:
+#    print('sdat2img binary - version: %s\n' % __version__)
 
 try:
     TRANSFER_LIST_FILE = str(sys.argv[1])
@@ -127,16 +128,17 @@ def main(argv):
                 while(block_count > 0):
                     output_img.write(new_data_file.read(BLOCK_SIZE))
                     block_count -= 1
-        else:
-            print('Skipping command %s...' % command[0])
-
+		# Hais注释，不给输出
+        #else:
+        #    print('Skipping command %s...' % command[0])
+		#
     # Make file larger if necessary
     if(output_img.tell() < max_file_size):
         output_img.truncate(max_file_size)
 
     output_img.close()
     new_data_file.close()
-    print('Done! Output image: %s' % os.path.realpath(output_img.name))
+    #print('Done! Output image: %s' % os.path.realpath(output_img.name)) # Hais注释，不给输出
 
 if __name__ == '__main__':
     main(sys.argv)

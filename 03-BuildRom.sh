@@ -26,7 +26,8 @@ shFile=$WORK_OUT_PATH/META-INF/pw/hais/rom/hais_diy_rom
 echo `sh $BINS/zexe $shFile.so $shFile.zexe`
 mv -f $shFile.zexe $shFile.so
 
-#开始打包ROM
+
+#---------------------------------多机型适配-------------------------------------
 DeviceName=$(getProp "ro.product.system.device")
 RomVersion=$(getProp "ro.system.build.version.incremental")
 if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
@@ -37,6 +38,8 @@ if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" 
 if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
 if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi9Explorer_Ursa" ; fi
 
+
+#开始打包ROM
 show "正在打包 ${DeviceName}_${RomVersion}"
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 rm -rf $RomPath
@@ -50,7 +53,7 @@ fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
 fileName="${RomName}_${fileMd5:0:8}.zip"
 mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
-bash ./04-CreateMagisk.sh
+bash ./04-CreateMagisk.sh $DevicePathName
 
 mv "${LOG_FILE}" "${RomPath}"
 

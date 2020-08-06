@@ -2,19 +2,20 @@
 SH_FILE="$PWD"						#脚本的文件
 BINS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"	#依赖目录
 BASE_PATH=${BINS%/*}							#脚本的目录
-LOG_FILE=$BASE_PATH/log.txt						#日记的目录
 INIT_FILE=$BINS/_init_hais_tools_				#存放变量目录
 ROM_FILE=${1}									#ROM文件
 ROM_NAME="$(basename "$ROM_FILE")"				#ROM的目录
+ZIP_LEVEL=1										#压缩等级
 WORK_TMP_PATH=$BASE_PATH/11-TempWork			#存放临时文件	
 WORK_SRC_PATH=$BASE_PATH/12-SrcWork				#存放解包后等待修改的文件	
 WORK_OUT_PATH=$BASE_PATH/13-OutWork				#存放欲打包的文件
 WORK_ROM_PATH=$BASE_PATH/90-RomFile				#存放打包后的rom
 WORK_BAK_PATH=$BASE_PATH/91-BakFile				#存放修改前的备份文件
 WORK_HMO_PATH=$BASE_PATH/92-HMOFile				#存放打修改前的文件
+LOG_FILE=$WORK_TMP_PATH/log.txt						#日记的目录
 
 TOOLS_HMO_PATH=$BASE_PATH/00-HMO_Tools			#HMO_Tools工具路径
-TOOLS_HMO_TEMP=$TOOLS_HMO_PATH/00-HMO_Temp		#HMO_Tools工具临时目录
+TOOLS_HMO_TEMP=$TOOLS_HMO_PATH/00-HMO_Temp		#HMO_Tools工具模板目录
 
 brotli=$BINS/brotli 	
 sdat2img=$BINS/sdat2img.py
@@ -26,13 +27,13 @@ img2sdat=$BINS/img2sdat.py
 rimg2sdat=$BINS/rimg2sdat.py
 
 show(){ 
-	echo  -e `date '+%H:%M:%S'`"-->\033[32m${1}\033[0m" | tee -a $LOG_FILE 
+	echo  -e "\033[32m【`date '+%H:%M:%S'`】${1}\033[0m" | tee -a $LOG_FILE 
 }
 
 getProp() { grep "$1" "${WORK_SRC_PATH}/system/system/build.prop" | cut -d "=" -f 2; }
 
 clean(){
-	show "清理遗留文件"
+	show "正在清理遗留文件..."
 	rm -rf $LOG_FILE
 	rm -rf $WORK_TMP_PATH
 	rm -rf $WORK_SRC_PATH
@@ -46,7 +47,7 @@ unImage(){
 	brotli -dj $WORK_TMP_PATH/${1}.new.dat.br | tee -a $LOG_FILE
 	show "转换 ${1}.new.dat 为 ${1}.img"
 	python3 $sdat2img $WORK_TMP_PATH/${1}.transfer.list $WORK_TMP_PATH/${1}.new.dat  $WORK_TMP_PATH/${1}.img | tee -a $LOG_FILE
-	show "取出 ${1}.img 到 $WORK_SRC_PATH/${1}/"
+	show "解压 ${1}.img"
 	mkdir -p $WORK_SRC_PATH/${1}
 	python3 $imgextractor $WORK_TMP_PATH/${1}.img $WORK_SRC_PATH/${1}  | tee -a $LOG_FILE
 }
@@ -64,8 +65,7 @@ zipImage(){ #保持动态分区打包
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
 	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
 	show "brotli转换 ${1}.new.dat 为 ${1}.new.dat.br"
-	brotli -Z -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
-	#brotli -1 -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
+	brotli -${ZIP_LEVEL} -j -w 24 "$WORK_TMP_PATH/${1}.new.dat" -o "$WORK_OUT_PATH/${1}.new.dat.br"
 	mv -f "$WORK_TMP_PATH/${1}.patch.dat" "$WORK_OUT_PATH/"
 	mv -f "$WORK_TMP_PATH/${1}.transfer.list" "$WORK_OUT_PATH/"
 }
@@ -96,7 +96,7 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 deleteBack(){	#传入文件或者文件夹，单个	deleteBack 需要删除的文件.txt
 	show "删除 文件/文件夹 并备份->${1/$PWD/""}"
 	mkdir -p $WORK_BAK_PATH${1%/*}
-	mv ${WORK_SRC_PATH}${1} $WORK_BAK_PATH${1}
+	mv ${WORK_SRC_PATH}${1} $WORK_BAK_PATH${1} 2>$LOG_FILE
 }
 
 
@@ -110,8 +110,8 @@ replaceBack(){	#替换并备份	replaceBack  新文件 旧文件，
 	#修复权限
 	if [ "${3}" = "fs" ] ;then repairFsAndCtx ${1} ${2} ; fi
 
-	cp -r ${2} ${backPaht}		#备份文件
-	cp -r ${1} ${2}				#复制新文件夹，替换到系统
+	cp -r ${2} ${backPaht} 2>$LOG_FILE		#备份文件
+	cp -r ${1} ${2}	2>$LOG_FILE			#复制新文件夹，替换到系统
 }
 
 
@@ -145,9 +145,10 @@ doUnApk(){	#反编译软件修改
 
 
 doInsert(){		#插入文件替换内容
-	show "处理 ${1##*/}"
+	echo ""
+	show "开始配置：${1##*/}"
 	source $1		#读取文件变量
-	show "寻找插入点：$FIND_START"
+	show "寻找插入：$FIND_START"
 	FINS_RES=$2/$SMALI_FILE
 
 	if [ "$FINS_RES" != "" ] ; then 
@@ -155,31 +156,31 @@ doInsert(){		#插入文件替换内容
 		if [ ! -n "$FIND_START" ];then oldStr=$DEFAULT_CODE ;fi
 		if [ -n "$oldStr" ];then
 			python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
+			cat > "$LOG_FILE.${1##*/}_$$.txt" <<EOF
+配置文件: $1
+要处理的文件: $FINS_RES
+-----------------------原始字符串------------------------
+$oldStr
+-----------------------新的字符串-----------------------
+$REPLACE_CODE
+EOF
+			show "处理结束：已完成插入"
 		else
-			show "无插入点段：$FILE_END"
+			show "无插入点：$FILE_END"
 		fi
 	else
-		show "未找到插入文件：${1}"
+		show "文件不在：${FINS_RES}"
 	fi
 	
 	SMALI_FILE=""
 	FIND_START=""
 	DEFAULT_CODE=""
 	REPLACE_CODE=""
+	echo ""
 }
 
 
 createMagisk(){  #创建Magisk面具模块
-	DeviceName=$(getProp "ro.product.system.device")
-	RomVersion=$(getProp "ro.system.build.version.incremental")
-	if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
-	if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
-	if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
-	if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
-	if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
-	if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
-	if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi9Explorer_Ursa" ; fi
-
 	RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 	NowDay=$(date "+%Y%m%d")
 
@@ -190,7 +191,8 @@ createMagisk(){  #创建Magisk面具模块
 	rm -rf "${MagiskPath}"
 	mkdir -p "$MagiskPath"
 	unzip -o $TOOLS_HMO_TEMP/Magisk_Template.zip -d "$MagiskPath"
-	sed -i "s/name=HaisMagiskTmp/name=${MagiskName}/" $MagiskPath/module.prop
+	sed -i "s/id=hais_lite_test/id=hais_lite_${MagiskName}/" $MagiskPath/module.prop
+	sed -i "s/name=HaisMagiskTmp/name=${MagiskName}_${RomVersion}/" $MagiskPath/module.prop
 	sed -i "s/version=0/version=${RomVersion}/" $MagiskPath/module.prop
 	sed -i "s/versionCode=0/versionCode=${NowDay}/" $MagiskPath/module.prop
 	for file in $2 ; do
@@ -199,8 +201,8 @@ createMagisk(){  #创建Magisk面具模块
 		cp -rp "${file}" $path
 	done
 	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9  | tee -a $LOG_FILE
-	mkdir -p "${RomPath}/Magisk面具恢复包"
-	mv ${MagiskPath}.zip "${RomPath}/Magisk面具恢复包"
+	mkdir -p "$RomPath"
+	mv ${MagiskPath}.zip ${RomPath}
 }
 
 
