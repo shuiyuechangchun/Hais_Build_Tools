@@ -54,13 +54,15 @@ mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
 bash ./04-CreateMagisk.sh $DevicePathName
 
-mkdir -p ${RomPath}/log
-mv "${LOG_FILE}*" "${RomPath}/log"
-echo "mv ${LOG_FILE}* ${RomPath}/log"
+mkdir -p "${RomPath}/log"
+mv ${LOG_FILE}* ${RomPath}/log
+
 mv "${WORK_ROM_PATH}" "../"
 cd ../
-#sudo rm -rf ${BASE_PATH}
-exit
+sudo rm -rf ${BASE_PATH}
+
+
+
 
 #python3 ../cloud189/main.py upload $WORK_ROM_PATH
 
