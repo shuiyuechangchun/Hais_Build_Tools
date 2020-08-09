@@ -47,7 +47,6 @@ mkdir -p $RomPath
 
 RomName="Hais@${DeviceName^}_${RomVersion}"
 7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL}  | tee -a $LOG_FILE
-#zip -qr "${WORK_TMP_PATH}/${RomName}.tmp" $WORK_OUT_PATH
 
 fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
 fileName="${RomName}_${fileMd5:0:8}.zip"
@@ -55,7 +54,13 @@ mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
 bash ./04-CreateMagisk.sh $DevicePathName
 
-mv "${LOG_FILE}" "${RomPath}"
+mkdir -p ${RomPath}/log
+mv "${LOG_FILE}*" "${RomPath}/log"
+echo "mv ${LOG_FILE}* ${RomPath}/log"
+mv "${WORK_ROM_PATH}" "../"
+cd ../
+#sudo rm -rf ${BASE_PATH}
+exit
 
 #python3 ../cloud189/main.py upload $WORK_ROM_PATH
 
