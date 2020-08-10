@@ -206,7 +206,7 @@ createMagisk(){  #创建Magisk面具模块
 		mkdir -p $path
 		cp -rp "${file}" $path
 	done
-	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9  | tee -a $LOG_FILE
+	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9  >>  $LOG_FILE
 	mkdir -p "$RomPath"
 	mv ${MagiskPath}.zip ${RomPath}
 }

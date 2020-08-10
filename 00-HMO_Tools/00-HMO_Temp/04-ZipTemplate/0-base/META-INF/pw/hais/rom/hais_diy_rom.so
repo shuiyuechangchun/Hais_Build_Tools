@@ -96,16 +96,11 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 	done
 	
 	
-#关闭日记
 echo "关闭桌面日记"
 home=/data/user_de/0/com.miui.home/cache/debug_log
-if [ -e $home/* ] ;then
-	rm -rf $home/*
-	chmod 000 $home
-	busybox chattr +i $home
-	echo " "
-	echo "已关闭Miui桌面日志"
-fi
+rm -rf $home/*
+chmod 000 $home
+busybox chattr +i $home
 
 
 	

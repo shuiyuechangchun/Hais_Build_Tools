@@ -22,6 +22,8 @@ doUnApk "/system/system/framework/miuisystemsdk@boot.jar" "$SMALI_TEMP/miuisyste
 
 #破解桌面 MiuiHome.apk
 doUnApk "/system/system/priv-app/MiuiHome/MiuiHome.apk" "$SMALI_TEMP/MiuiHome.apk"
+echo ""> $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so
+7z a $WORK_SRC_PATH/system/system/priv-app/MiuiHome/MiuiHome.apk $WORK_TMP_PATH/MiuiHome.apk/lib
 
 #开放电源键 Settings.jar
 doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Settings.apk"

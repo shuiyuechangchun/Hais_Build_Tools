@@ -36,7 +36,7 @@ if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
 if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
 if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
 if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
-if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi9Explorer_Ursa" ; fi
+if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
 
 
 #开始打包ROM
@@ -53,13 +53,15 @@ fileName="${RomName}_${fileMd5:0:8}.zip"
 mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
 bash ./04-CreateMagisk.sh $DevicePathName
-
+#复制日记
 mkdir -p "${RomPath}/log"
 mv ${LOG_FILE}* ${RomPath}/log
-
+#复制备份文件
+mv "${WORK_BAK_PATH}" "${RomPath}"
+#统一移动
 mv "${WORK_ROM_PATH}" "../"
 cd ../
-sudo rm -rf ${BASE_PATH}
+#sudo rm -rf ${BASE_PATH}
 
 
 

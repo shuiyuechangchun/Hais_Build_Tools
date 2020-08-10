@@ -6,12 +6,7 @@ source $BINS/_init_hais_tools_		#依赖目录
 SMALI_TEMP=$TOOLS_HMO_TEMP/03-SmailTemplate			#Smail模板目录
 ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
-DeviceName=$(getProp "ro.product.system.device")
-if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
-if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
-if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
-if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
 
-echo "${DeviceName}目录${DevicePathName}"
 
-clean
+echo ""> $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so
+7z a $WORK_SRC_PATH/system/system/priv-app/MiuiHome/MiuiHome.apk $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so

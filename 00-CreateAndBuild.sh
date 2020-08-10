@@ -6,6 +6,10 @@ if [ ! -n "$IS_ZIP" ] ; then IS_ZIP=1;fi;
 ROM_BUILD_FILE="./11-Build_Temp/Hais_Build_Tools_${1##*/}"
 
 #开始做准备工作
+sudo chmod 0777 *
+sudo chmod 0777 ./00-Bins/*
+sudo chmod 0777 ./00-Bins/boot/*
+
 printf "\033c"
 echo "正在清理坟墓，请耐心等待~~~"
 sudo rm -rf $ROM_BUILD_FILE
