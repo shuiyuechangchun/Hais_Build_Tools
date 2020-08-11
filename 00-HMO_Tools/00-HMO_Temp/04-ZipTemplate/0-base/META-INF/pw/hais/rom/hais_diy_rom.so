@@ -98,6 +98,7 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 	
 echo "关闭桌面日记"
 home=/data/user_de/0/com.miui.home/cache/debug_log
+mkdir -p $home
 rm -rf $home/*
 chmod 000 $home
 busybox chattr +i $home
