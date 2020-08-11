@@ -7,6 +7,7 @@ show "优化 build.prop 文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/build.prop	#系统文件所在路径
 mergeEndBack $SYS_FILE $OthorFiles/system.prop
+sed -i '/ro.build.version.min_supported_target_sdk=23/d' $WORK_SRC_PATH/$SYS_FILE
 
 
 show "优化 prop.default 文件"

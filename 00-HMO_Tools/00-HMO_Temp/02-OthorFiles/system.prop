@@ -1,5 +1,16 @@
+ro.rom.author=Hais
 #不知名优化
 debug.sf.latch_unsignaled=1
+mi.extras=true
+ro.secure=0
+ro.miui.cust_variant=cn
+ro.miui.region=CN
+persist.vendor.vcb.enable=true
+persist.vendor.vcb.ability=true
+
+#调整支持androidApk版本
+ro.build.version.min_supported_target_sdk=17
+
 #默认开启ADB
 persist.service.adb.enable=1
 
@@ -26,6 +37,9 @@ persist.sys.purgeable_assets=1
 #开启小米10拥有的游戏变声器等功能
 ro.vendor.audio.voice.change.support=true
 ro.vendor.audio.game.effect=true
+
+#20级音量
+ro.config.media_vol_steps=20
 
 #玄学WIFI优化
 ro.net.enable_sla=1
