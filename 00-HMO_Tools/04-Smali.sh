@@ -23,7 +23,7 @@ doUnApk "/system/system/framework/miuisystemsdk@boot.jar" "$SMALI_TEMP/miuisyste
 #破解桌面 MiuiHome.apk
 doUnApk "/system/system/priv-app/MiuiHome/MiuiHome.apk" "$SMALI_TEMP/MiuiHome.apk"
 echo ""> $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so
-7z a $WORK_SRC_PATH/system/system/priv-app/MiuiHome/MiuiHome.apk $WORK_TMP_PATH/MiuiHome.apk/lib
+#7z a $WORK_SRC_PATH/system/system/priv-app/MiuiHome/MiuiHome.apk $WORK_TMP_PATH/MiuiHome.apk/lib  >>$LOG_FILE
 
 #开放电源键 Settings.jar
 doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Settings.apk"
@@ -33,7 +33,7 @@ doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Set
 doUnApk "/system/system/app/miuisystem/miuisystem.apk" "$SMALI_TEMP/miuisystem.apk"
 doUnApk "/system/system/app/ThemeManager/ThemeManager.apk" "$SMALI_TEMP/ThemeManager.apk"
 cp -r $WORK_TMP_PATH/ThemeManager.apk/lib/arm64-v8a $WORK_TMP_PATH/ThemeManager.apk/lib/arm64
-7z a $WORK_SRC_PATH/system/system/app/ThemeManager/ThemeManager.apk $WORK_TMP_PATH/ThemeManager.apk/lib
+7z a $WORK_SRC_PATH/system/system/app/ThemeManager/ThemeManager.apk $WORK_TMP_PATH/ThemeManager.apk/lib  >>$LOG_FILE
 
 
 

@@ -57,13 +57,13 @@ zipImage(){ #保持动态分区打包
 	show "正在ext4fs打包 ${1} "
 	imgSize=`cat "$WORK_SRC_PATH/${1}_size.txt"`
 	if [ "${1}" = "system" ] ;then 
-		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a / "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"
+		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a / "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"  >>$LOG_FILE
 	else
-		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a ${1} "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"
+		$ext4fs -s -T 0 -C "$WORK_SRC_PATH/${1}_fs_config" -S "$WORK_SRC_PATH/${1}_file_contexts" -l $imgSize -a ${1} "$WORK_TMP_PATH/${1}.img" "$WORK_SRC_PATH/${1}"  >>$LOG_FILE
 	fi
 
 	show "正在转换 ${1}.img 为 ${1}.new.dat"
-	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}
+	python3 $img2sdat "$WORK_TMP_PATH/${1}.img" -o $WORK_TMP_PATH -v 4 -p ${1}  >>$LOG_FILE
 	if [ "$ZIP_LEVEL" = "9"  ] ; then 
 		BR_LEVEL=Z
 	else
@@ -200,7 +200,7 @@ createMagisk(){  #创建Magisk面具模块
 	show "正在打包 $MagiskFileName"
 	rm -rf "${MagiskPath}"
 	mkdir -p "$MagiskPath"
-	unzip -o $TOOLS_HMO_TEMP/Magisk_Template.zip -d "$MagiskPath"
+	unzip -o $TOOLS_HMO_TEMP/Magisk_Template.zip -d "$MagiskPath" >>$LOG_FILE
 	sed -i "s/id=hais_lite_test/id=hais_lite_${MagiskName}/" $MagiskPath/module.prop
 	sed -i "s/name=HaisMagiskTmp/name=${MagiskName}_${RomVersion}/" $MagiskPath/module.prop
 	sed -i "s/version=0/version=${RomVersion}/" $MagiskPath/module.prop
@@ -210,7 +210,7 @@ createMagisk(){  #创建Magisk面具模块
 		mkdir -p $path
 		cp -rp "${file}" $path
 	done
-	echo `7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=9`  >>  $LOG_FILE
+	7z a -tzip -r "${MagiskPath}.zip" "${MagiskPath}/*" -mx=1  >>  $LOG_FILE
 	mkdir -p "$RomPath"
 	mv ${MagiskPath}.zip ${RomPath}
 }

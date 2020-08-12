@@ -40,28 +40,36 @@ if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; 
 
 
 #开始打包ROM
-show "正在打包 ${DeviceName}_${RomVersion}"
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
+RomName="Hais@${DeviceName^}_${RomVersion}"
 rm -rf $RomPath
 mkdir -p $RomPath
 
-RomName="Hais@${DeviceName^}_${RomVersion}"
-7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL}  | tee -a $LOG_FILE
+show "正在打包 ${DeviceName}_${RomVersion}"
+echo `7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL}` >>$LOG_FILE
 
 fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
 fileName="${RomName}_${fileMd5:0:8}.zip"
 mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
+show "正在制作 面具 文件"
 bash ./04-CreateMagisk.sh $DevicePathName
-#复制日记
-mkdir -p "${RomPath}/log"
-mv ${LOG_FILE}* ${RomPath}/log
-#复制备份文件
-mv "${WORK_BAK_PATH}" "${RomPath}"
-#统一移动
-mv "${WORK_ROM_PATH}" "../"
+
+show "正在压缩 备份 文件"
+rm -rf "${WORK_BAK_PATH}/firmware-update"
+rm -rf "${WORK_BAK_PATH}/META-INF/META-INF/pw"
+7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL}  >>$LOG_FILE
+
+show "正在压缩 日记 文件"
+7z a -tzip -r "${RomPath}/AutoBuildLogs.zip" -pweihaisheng "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE
+
+show "正在移动最终文件到ROM目录"
+path="${BASE_PATH}/../Hais_Roms/$DevicePathName"
+mkdir -p "$path"
+mv -f "${RomPath}/" "${path}"
+
 cd ../
-#sudo rm -rf ${BASE_PATH}
+sudo rm -rf ${BASE_PATH}
 
 
 
