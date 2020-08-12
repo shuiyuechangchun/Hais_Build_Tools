@@ -11,18 +11,20 @@ sudo chmod 0777 ./00-Bins/*
 sudo chmod 0777 ./00-Bins/boot/*
 
 printf "\033c"
-echo "正在清理坟墓，请耐心等待~~~"
+echo ">正在清理坟墓，请耐心等待~~~"
 sudo rm -rf $ROM_BUILD_FILE
-echo "创建编译目录：${ROM_BUILD_FILE}"
+echo ">创建编译目录：${ROM_BUILD_FILE}"
 mkdir -p $ROM_BUILD_FILE
 mkdir -p ${ROM_BUILD_FILE}/11-TempWork 
 cp -rf ./0* ./$ROM_BUILD_FILE/
 sed -i "s/ZIP_LEVEL=1/ZIP_LEVEL=${IS_ZIP}/" $ROM_BUILD_FILE/00-Bins/_init_hais_tools_
-echo "开始0${IS_ZIP}级编译：${ROM_FILE}"
+echo ">开始0${IS_ZIP}级编译：${ROM_FILE}"
 
-cd ./$ROM_BUILD_FILE
-sudo bash ./01-UnpackRom.sh ../../$ROM_FILE
-sudo bash ./02-StartHMO.sh ../../$ROM_FILE
-sudo bash ./03-BuildRom.sh ../../$ROM_FILE
-python3 ../../cloud189/main.py upload "./11-Build_Temp/Q群：616490741"
-echo "打包结束"
+sudo bash "${ROM_BUILD_FILE}/01-UnpackRom.sh" ${ROM_FILE}
+sudo bash "${ROM_BUILD_FILE}/02-StartHMO.sh" ${ROM_FILE}
+sudo bash "${ROM_BUILD_FILE}/03-BuildRom.sh" ${ROM_FILE}
+
+
+echo ">打包结束，正在上传文件"
+../cloud189/main.py upload "./11-Build_Temp/Q群：616490741"
+curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}"

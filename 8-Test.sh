@@ -7,4 +7,4 @@ SMALI_TEMP=$TOOLS_HMO_TEMP/03-SmailTemplate			#Smail模板目录
 ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
 
-python3 ../cloud189/main.py upload "./11-Build_Temp/Hais_Roms/RedMi_K20P_Raphael"
+../cloud189/main.py upload "./11-Build_Temp/Q群：616490741"

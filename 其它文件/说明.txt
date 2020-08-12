@@ -26,11 +26,6 @@ deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multi
 deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
 deb http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
 deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
-deb-src http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
 EOF
 #进入Debian修改软件源-----------------------------------------------------------------------------------------------------------------------------------------
 tee /etc/apt/sources.list <<-'EOF'

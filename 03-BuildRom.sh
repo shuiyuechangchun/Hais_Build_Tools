@@ -72,35 +72,4 @@ mkdir -p "$path"
 sudo rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
-cd ../
 sudo rm -rf ${BASE_PATH}
-
-
-
-
-#python3 ../cloud189/main.py upload $WORK_ROM_PATH
-
-
-curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-exit
-
-echo "正在上传：$fileName"
-RomInfo=$(python3 ./00-Bins/wss.py upload "$fileName")
-curl https://sc.ftqq.com/SCU41677T94c1f08c9520275c79b20c3a0da68e345c400a38e0d95.send -X POST -d "text=打包结束：${DeviceName}_${RomVersion}&desp=${updateInfo}"
-exit
-
-#加密Zip包
-#java -jar $curPath/bin/ZipCenOp.jar e $fileName
