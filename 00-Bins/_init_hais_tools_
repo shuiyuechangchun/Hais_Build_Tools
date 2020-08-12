@@ -82,8 +82,12 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 	#判断是 system 还是 vendor
 	repariType="system"
 	fileType="system_file"
+	filePermission="00644"
 	if [[ ${sysFile:0:6} = "vendor"* ]] ;then repariType="vendor" ; fi
-	if [[ $sysFile = *"/xbin/"* ]] ;then fileType="${2##*/}_exec" ; fi
+	if [[ $sysFile = *"/xbin/"* ]] ;then 
+		fileType="${2##*/}_exec" 
+		filePermission="00755"
+	fi
 	show "修复 $repariType Fs 和 Ctx -> $sysFile"
 	if [ -f $1 ] ;then 
 		path=`echo ${sysFile%/*} | sed 's#system\/##'`
@@ -94,8 +98,8 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 		fi
 	fi
 	
-	echo "$(echo $sysFile | sed 's/system\///') 0000 0000 00644" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
-	echo "$(echo $sysFile | sed 's/system\//\//') u:object_r:system_file:s0" >> "${WORK_SRC_PATH}/${repariType}_file_contexts"
+	echo "$(echo $sysFile | sed 's/system\///') 0000 0000 ${filePermission}" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
+	echo "$(echo $sysFile | sed 's/system\//\//') u:object_r:${fileType}:s0" >> "${WORK_SRC_PATH}/${repariType}_file_contexts"
 }
 
 deleteBack(){	#传入文件或者文件夹，单个	deleteBack 需要删除的文件.txt
