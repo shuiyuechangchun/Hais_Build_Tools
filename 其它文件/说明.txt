@@ -50,15 +50,8 @@ git clone https://gitee.com/hais/Hais_Build_Tools.git
 
 #安装 python3.8 https://www.itgeeker.net/ubuntu-debian-raspbian-install-python3-8-use-source-code-complier/
 sudo apt install python3-pip
-
-#修改权限、
-cd ./Hais_Build_Tools
-chmod 0777 ./00-Bins/*
-chmod 0777 ./00-Bins/boot/*
-
-#开始打包
-sudo bash ./0-UnpackRom.sh ../miuixxxxxxxx.zip
-
+#安装网盘
+git clone https://github.com/Aruelius/cloud189.git && cd cloud189 && pip install -r requirements.txt
 
 
 
