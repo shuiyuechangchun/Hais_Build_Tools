@@ -143,7 +143,7 @@ doUnApk(){	#反编译软件修改
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
-	show "正在编译：${1}"
+	show "正在回编译：${1}"
 	$ApkTools -r -b b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" | tee -a $LOG_FILE 
 	replaceBack "${TMP_FILE_PATH}${1}.new " "$WORK_SRC_PATH$1" 
 }
@@ -164,14 +164,16 @@ doInsert(){		#插入文件替换内容
 		oldStr=`sed -n "/$FIND_START/,/$FILE_END/p" $FINS_RES`
 		if [ ! -n "$FIND_START" ];then oldStr=$DEFAULT_CODE ;fi
 		if [ -n "$oldStr" ];then
-			python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"
-			cat > "$LOG_FILE.${1##*/}_$$.txt" <<EOF
+			res=`python3 $BINS/repStr.py "$FINS_RES" "$oldStr" "$REPLACE_CODE"`
+			cat > "$LOG_FILE.${1##*/}.txt" <<EOF
 配置文件: $1
 要处理的文件: $FINS_RES
 -----------------------原始字符串------------------------
 $oldStr
 -----------------------新的字符串-----------------------
 $REPLACE_CODE
+------------------------替换结果-------------------------
+$res
 EOF
 			show "处理结束：已完成插入"
 		else

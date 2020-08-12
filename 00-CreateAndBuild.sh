@@ -20,8 +20,9 @@ cp -rf ./0* ./$ROM_BUILD_FILE/
 sed -i "s/ZIP_LEVEL=1/ZIP_LEVEL=${IS_ZIP}/" $ROM_BUILD_FILE/00-Bins/_init_hais_tools_
 echo "开始0${IS_ZIP}级编译：${ROM_FILE}"
 
-cd ./$ROM_BUILD_FILE && 
-sudo bash ./01-UnpackRom.sh ../../$ROM_FILE && 
-sudo bash ./02-StartHMO.sh ../../$ROM_FILE &&
-sudo bash ./03-BuildRom.sh ../../$ROM_FILE &&
+cd ./$ROM_BUILD_FILE
+sudo bash ./01-UnpackRom.sh ../../$ROM_FILE
+sudo bash ./02-StartHMO.sh ../../$ROM_FILE
+sudo bash ./03-BuildRom.sh ../../$ROM_FILE
+python3 ../../cloud189/main.py upload "./11-Build_Temp/Q群：616490741"
 echo "打包结束"

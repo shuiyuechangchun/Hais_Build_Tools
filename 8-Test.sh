@@ -7,6 +7,4 @@ SMALI_TEMP=$TOOLS_HMO_TEMP/03-SmailTemplate			#Smail模板目录
 ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
 
-
-echo ""> $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so
-7z a $WORK_SRC_PATH/system/system/priv-app/MiuiHome/MiuiHome.apk $WORK_TMP_PATH/MiuiHome.apk/lib/arm64-v8a/libsdk_patcher_jni.so
+python3 ../cloud189/main.py upload "./11-Build_Temp/Hais_Roms/RedMi_K20P_Raphael"

@@ -46,26 +46,30 @@ rm -rf $RomPath
 mkdir -p $RomPath
 
 show "正在打包 ${DeviceName}_${RomVersion}"
-echo `7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL}` >>$LOG_FILE
-
-fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
-fileName="${RomName}_${fileMd5:0:8}.zip"
-mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
+7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE  &
 
 show "正在制作 面具 文件"
-bash ./04-CreateMagisk.sh $DevicePathName
+bash ./04-CreateMagisk.sh $DevicePathName &
 
 show "正在压缩 备份 文件"
 rm -rf "${WORK_BAK_PATH}/firmware-update"
 rm -rf "${WORK_BAK_PATH}/META-INF/META-INF/pw"
-7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL}  >>$LOG_FILE
+7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL}  >>$LOG_FILE  &
 
 show "正在压缩 日记 文件"
-7z a -tzip -r "${RomPath}/AutoBuildLogs.zip" -pweihaisheng "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE
+7z a -tzip -r "${RomPath}/AutoBuildLogs.zip" -pweihaisheng "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE  &
+
+wait
+
+show "正在计算MD5文件"
+fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
+fileName="${RomName}_${fileMd5:0:8}.zip"
+mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
 show "正在移动最终文件到ROM目录"
-path="${BASE_PATH}/../Hais_Roms/$DevicePathName"
+path="${BASE_PATH}/../Q群：616490741/$DevicePathName"
 mkdir -p "$path"
+sudo rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
 cd ../
