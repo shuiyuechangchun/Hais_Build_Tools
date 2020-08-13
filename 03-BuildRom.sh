@@ -37,6 +37,7 @@ if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; 
 if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
 if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
 if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
+if [ "$DeviceName" == "sirius" ]; then DevicePathName="XiaoMi_Mi8SE_Sirius" ; fi
 
 
 #开始打包ROM
@@ -46,20 +47,18 @@ rm -rf $RomPath
 mkdir -p $RomPath
 
 show "正在打包 ${DeviceName}_${RomVersion}"
-7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE  &
+7z a -tzip -r "${WORK_TMP_PATH}/${RomName}.tmp" "${WORK_OUT_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
 
 show "正在制作 面具 文件"
-bash ./04-CreateMagisk.sh $DevicePathName &
+bash ./04-CreateMagisk.sh $DevicePathName
 
 show "正在压缩 备份 文件"
 rm -rf "${WORK_BAK_PATH}/firmware-update"
 rm -rf "${WORK_BAK_PATH}/META-INF/META-INF/pw"
-7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL}  >>$LOG_FILE  &
+7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
 
 show "正在压缩 日记 文件"
-7z a -tzip -r "${RomPath}/AutoBuildLogs.zip" -pweihaisheng "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE  &
-
-wait
+7z a -tzip -r "${RomPath}/AutoBuildLogs.zip" -pweihaisheng "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
 
 show "正在计算MD5文件"
 fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`

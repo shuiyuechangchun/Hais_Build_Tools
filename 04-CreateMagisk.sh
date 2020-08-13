@@ -37,6 +37,5 @@ $WORK_BAK_PATH/system/system/product/priv-app/GooglePlayServicesUpdater
 $WORK_BAK_PATH/system/system/product/priv-app/GoogleServicesFramework
 $WORK_BAK_PATH/system/system/product/priv-app/ConfigUpdater
 " &
-
 wait
 
