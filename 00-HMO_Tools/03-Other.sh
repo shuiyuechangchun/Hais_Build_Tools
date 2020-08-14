@@ -28,6 +28,11 @@ sed -i '/persist.sys.usb.config=none/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/ro.secure=1/d' $WORK_SRC_PATH/$SYS_FILE
 
 
+show ">>>>>>添加 init.d 支持"
+OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
+SYS_FILE=/system/init.rc					#系统文件所在路径
+mergeEndBack $SYS_FILE $OthorFiles/init.rc
+
 
 show ">>>>>>关闭日记文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
@@ -38,7 +43,6 @@ show ">>>>>>关闭WIFI日记文件"
 for file in `find ${OthorFiles}/init.qcom.rc/* -type f` ;do
 	doInsert $file $WORK_SRC_PATH
 done
-
 
 show ">>>>>>添加第三方WebView支持（需要置入WebView）"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles/framework-res.apk

@@ -1,0 +1,4 @@
+# Hais Init.d support
+on property:sys.boot_completed=1
+    exec u:r:init:s0 root root -- /init.d.rc
+    exec u:r:su:s0 root root -- /init.d.rc

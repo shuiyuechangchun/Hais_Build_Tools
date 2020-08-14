@@ -94,7 +94,7 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 	if [ -f $1 ] ;then 
 		path=`echo ${sysFile%/*} | sed 's#system\/##'`
 		
-		if [ `grep -c "$path" "${WORK_SRC_PATH}/${repariType}_fs_config"` == '0' ];then
+		if [ `grep -c "$path " "${WORK_SRC_PATH}/${repariType}_fs_config"` == '0' ];then
 			echo "$(dirname $path)  0 0 0755" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
 			echo "$path  0 0 0755" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
 		fi
@@ -107,7 +107,7 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 deleteBack(){	#传入文件或者文件夹，单个	deleteBack 需要删除的文件.txt
 	show "删除 文件/文件夹 并备份->${1/$PWD/""}"
 	mkdir -p $WORK_BAK_PATH${1%/*}
-	mv ${WORK_SRC_PATH}${1} $WORK_BAK_PATH${1} 2>$LOG_FILE
+	mv ${WORK_SRC_PATH}${1} $WORK_BAK_PATH${1} 2>>$LOG_FILE
 }
 
 
@@ -121,8 +121,8 @@ replaceBack(){	#替换并备份	replaceBack  新文件 旧文件，
 	#修复权限
 	if [ "${3}" = "fs" ] ;then repairFsAndCtx ${1} ${2} ; fi
 
-	cp -r ${2} ${backPaht} 2>$LOG_FILE		#备份文件
-	cp -r ${1} ${2}	2>$LOG_FILE			#复制新文件夹，替换到系统
+	cp -r ${2} ${backPaht} 2>>$LOG_FILE		#备份文件
+	cp -r ${1} ${2}	2>>$LOG_FILE			#复制新文件夹，替换到系统
 }
 
 
