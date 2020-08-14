@@ -172,6 +172,7 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/media/audio/alarms/Morning.ogg
 /system/media/audio/alarms/Sunrise.ogg
 /system/etc/fake_cdrom_install.iso
+/system/app/SogouInput
 /verity_key"
 
 DELETE_VENDOR="/vendor/app/GFManager/
