@@ -24,6 +24,7 @@ doUnApk "/system/system/apex/com.android.runtime.release/javalib/core-oj.jar" "$
 doUnApk "/system/system/apex/com.android.conscrypt/javalib/conscrypt.jar" "$SMALI_TEMP/conscrypt.jar"
 doUnApk "/system/system/framework/services.jar" "$SMALI_TEMP/services.jar"
 doUnApk "/system/system/framework/miuisystemsdk@boot.jar" "$SMALI_TEMP/miuisystemsdk@boot.jar"
+doUnApk "/system/system/priv-app/MiuiPackageInstaller/MiuiPackageInstaller.apk" "$SMALI_TEMP/MiuiPackageInstaller.apk"
 
 #开放电源键 Settings.jar
 doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Settings.apk"
