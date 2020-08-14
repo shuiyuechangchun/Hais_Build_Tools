@@ -5,7 +5,7 @@ BINS=$BASE_PATH/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
 
-show "解压 ROM 到 $WORK_SRC_PATH"
+show ">>>>解压 ROM 到 $WORK_SRC_PATH"
 7za x $ROM_FILE -o$WORK_TMP_PATH >$LOG_FILE
 unImage system &
 unImage vendor &
@@ -15,13 +15,13 @@ wait
 
 mkdir -p $WORK_OUT_PATH
 
-show "修复fs"
+show ">>>>修复fs"
 sed -i 's/\/system//' "$WORK_TMP_PATH/system_file_contexts"
 sed -i 's/system\///' "$WORK_TMP_PATH/system_fs_config"
 
 
 
-show "破解Boot.img"
+show ">>>>破解Boot.img"
 rm -rf $WORK_SRC_PATH/system/system/recovery-from-boot.p
 mv -f  $WORK_TMP_PATH/boot.img -t $BINS/boot/
 $BINS/boot/unpackimg.sh >> $LOG_FILE

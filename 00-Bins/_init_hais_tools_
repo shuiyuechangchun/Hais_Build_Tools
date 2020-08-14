@@ -6,6 +6,8 @@ INIT_FILE=$BINS/_init_hais_tools_				#存放变量目录
 ROM_FILE=${1}									#ROM文件
 ROM_NAME="$(basename "$ROM_FILE")"				#ROM的目录
 ZIP_LEVEL=1										#压缩等级
+ApkTools="java -jar $PWD/00-Bins/apktool.jar"
+
 WORK_TMP_PATH=$BASE_PATH/11-TempWork			#存放临时文件	
 WORK_SRC_PATH=$BASE_PATH/12-SrcWork				#存放解包后等待修改的文件	
 WORK_OUT_PATH=$BASE_PATH/13-OutWork				#存放欲打包的文件
@@ -134,17 +136,20 @@ mergeEndBack(){	#传入原文件 和 需要增加的文件 mergeEndBack 原始.t
 
 
 doUnApk(){	#反编译软件修改
+	DeviceName=$(getProp "ro.product.system.device")
 	AndroidApi=$(getProp 'ro.build.version.sdk')
 	show "反编译：${1}"
 	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
 	rm -rf $TMP_FILE_PATH
 	rm -rf $TMP_FILE_PATH.new
-	$ApkTools -r -b d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" | tee -a $LOG_FILE
+	$ApkTools -d -r -b -f d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" -t $DeviceName | tee -a $LOG_FILE
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
 	show "正在回编译：${1}"
-	$ApkTools -r -b b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" | tee -a $LOG_FILE 
+	$ApkTools empty-framework-dir
+	$ApkTools -d -r -b -f b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" -t $DeviceName| tee -a $LOG_FILE 
+	exit
 	replaceBack "${TMP_FILE_PATH}${1}.new " "$WORK_SRC_PATH$1" 
 }
 

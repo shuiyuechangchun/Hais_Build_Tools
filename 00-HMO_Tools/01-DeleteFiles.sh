@@ -176,11 +176,7 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 
 DELETE_VENDOR="/vendor/app/GFManager/
 /vendor/app/aiasst_service/
-/vendor/data-app/Youpin/
-/vendor/data-app/Health/
-/vendor/data-app/SmartHome/
-/vendor/data-app/wps-lite/
-/vendor/data-app/XMRemoteController/
+/vendor/data-app/
 /vendor/etc/scve/
 /vendor/app/GFTest/"
 

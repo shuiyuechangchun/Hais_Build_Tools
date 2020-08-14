@@ -7,4 +7,11 @@ SMALI_TEMP=$TOOLS_HMO_TEMP/03-SmailTemplate			#Smail模板目录
 ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
 
-../cloud189/main.py upload "./11-Build_Temp/Q群：616490741"
+
+sudo bash ./01-UnpackRom.sh ../../$ROM_FILE
+
+
+show ">>>>>>关闭WIFI日记文件"
+for file in `find ${OthorFiles}/init.qcom.rc/* -type f` ;do
+	doInsert $file $WORK_SRC_PATH
+done

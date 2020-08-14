@@ -102,7 +102,7 @@ busybox chattr -i $home
 mkdir -p $home
 rm -rf $home/*
 chmod 000 $home
-#busybox chattr +i $home	不可读会导致界面不可保存
+busybox chattr +i $home	#不可读会导致界面不可保存
 
 
 	
