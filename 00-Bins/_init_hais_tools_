@@ -142,13 +142,13 @@ doUnApk(){	#反编译软件修改
 	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
 	rm -rf $TMP_FILE_PATH
 	rm -rf $TMP_FILE_PATH.new
-	$ApkTools -q -r -b -f d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" -t $DeviceName | tee -a $LOG_FILE
+	$ApkTools -r -b -f d -c -api $AndroidApi --use-aapt2 "$WORK_SRC_PATH${1}" -o "$TMP_FILE_PATH" -t $DeviceName | tee -a $LOG_FILE
 	for file in `find ${2}/* -type f` ;do
 		doInsert $file ${TMP_FILE_PATH}
 	done
 	show "正在回编译：${1}"
 	#$ApkTools empty-framework-dir
-	$ApkTools -q -r -b -f b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" -t $DeviceName| tee -a $LOG_FILE 
+	$ApkTools -r -b -f b -c -api $AndroidApi --use-aapt2 "$TMP_FILE_PATH" -o "${TMP_FILE_PATH}${1}.new" -t $DeviceName| tee -a $LOG_FILE 
 	replaceBack "${TMP_FILE_PATH}${1}.new " "$WORK_SRC_PATH$1" 
 }
 
