@@ -38,6 +38,7 @@ if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" 
 if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
 if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
 if [ "$DeviceName" == "sirius" ]; then DevicePathName="XiaoMi_Mi8SE_Sirius" ; fi
+if [ "$DeviceName" == "davinci" ]; then DevicePathName="RedMi_K20_Davinci" ; fi
 
 
 #开始打包ROM

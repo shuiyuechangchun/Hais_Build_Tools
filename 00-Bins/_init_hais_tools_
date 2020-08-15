@@ -163,8 +163,13 @@ doInsert(){		#插入文件替换内容
 	source $1		#读取文件变量
 	show "寻找插入：$FIND_START"
 	FINS_RES=$2/$SMALI_FILE
-
-	if [ "$FINS_RES" != "" ] ; then 
+	
+	if [ ! -n "$SMALI_FILE" ] ; then 
+		FINS_RES=`find $2 -name *.smali | xargs grep -e "$FIND_START"`
+		FINS_RES=${FINS_RES/:$FIND_START/""}
+	fi
+	
+	if [ -n "$FINS_RES" ] ; then 
 		oldStr=`sed -n "/$FIND_START/,/$FILE_END/p" $FINS_RES`
 		if [ ! -n "$FIND_START" ];then oldStr=$DEFAULT_CODE ;fi
 		if [ -n "$oldStr" ];then

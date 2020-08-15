@@ -1,7 +1,7 @@
 #!/bin/bash
 BASH_PATH=/tmp/Hais/ReplaceFile
 configFile='/sdcard/.hais'
-if [ ! -d $configFile ];then touch $configFile;fi
+if [ ! -n "$configFile" ];then touch $configFile;fi
 source $configFile		#导入变量
 
 #删除多余文件
