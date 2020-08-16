@@ -12,6 +12,9 @@ $WORK_BAK_PATH/system/system/priv-app/ContentExtension
 $WORK_BAK_PATH/system/system/app/CatcherPatch
 " &
 
+createMagisk ${1} "分享和互传" "
+$WORK_BAK_PATH/system/system/priv-app/MiShare
+" &
 
 mv -f "$WORK_BAK_PATH/system/system/data-app/XiaoAiSpeechEngine" "$WORK_BAK_PATH/system/system/app/XiaoAiSpeechEngine"
 createMagisk ${1} "小爱语音恢复" "
