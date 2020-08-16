@@ -43,7 +43,7 @@ deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free con
 EOF
 
 #安装软件
-apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full 
+apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full zipalign
 
 #拉取代码
 git clone https://gitee.com/hais/Hais_Build_Tools.git
