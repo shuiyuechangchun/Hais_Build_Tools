@@ -5,9 +5,22 @@ BINS=$BASE_PATH/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
 
-show "----------------开始执行 打包 脚本----------------"
+#---------------------------------多机型适配-------------------------------------
+DeviceName=$(getProp "ro.product.system.device")
+RomVersion=$(getProp "ro.system.build.version.incremental")
+if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
+if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
+if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
+if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
+if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
+if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
+if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
+if [ "$DeviceName" == "sirius" ]; then DevicePathName="XiaoMi_Mi8SE_Sirius" ; fi
+if [ "$DeviceName" == "davinci" ]; then DevicePathName="RedMi_K20_Davinci" ; fi
 
 
+
+show "---------------- 打包 ${DeviceName}-${RomVersion} ----------------"
 nowDate=$(date "+%Y.%m.%d")
 mkdir -p $WORK_TMP_PATH
 touch "$WORK_TMP_PATH/system.patch.dat"
@@ -27,23 +40,10 @@ echo `sh $BINS/zexe $shFile.so $shFile.zexe`
 mv -f $shFile.zexe $shFile.so
 
 
-#---------------------------------多机型适配-------------------------------------
-DeviceName=$(getProp "ro.product.system.device")
-RomVersion=$(getProp "ro.system.build.version.incremental")
-if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
-if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
-if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
-if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
-if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
-if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
-if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
-if [ "$DeviceName" == "sirius" ]; then DevicePathName="XiaoMi_Mi8SE_Sirius" ; fi
-if [ "$DeviceName" == "davinci" ]; then DevicePathName="RedMi_K20_Davinci" ; fi
-
-
 #开始打包ROM
+NowDay=$(date "+%Y%m%d")
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
-RomName="Hais@${DeviceName^}_${RomVersion}"
+RomName="Hais@${NowDay}_Build_${DeviceName^}_${RomVersion}"
 rm -rf $RomPath
 mkdir -p $RomPath
 
