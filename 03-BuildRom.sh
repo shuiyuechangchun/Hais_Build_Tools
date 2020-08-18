@@ -8,17 +8,36 @@ source $BINS/_init_hais_tools_		#依赖目录
 #---------------------------------多机型适配-------------------------------------
 DeviceName=$(getProp "ro.product.system.device")
 RomVersion=$(getProp "ro.system.build.version.incremental")
-if [ "$DeviceName" == "raphael" ]; then DevicePathName="RedMi_K20P_Raphael" ; fi
-if [ "$DeviceName" == "cepheus" ]; then DevicePathName="XiaoMi_Mi9_Cepheus" ; fi
-if [ "$DeviceName" == "dipper" ]; then DevicePathName="XiaoMi_Mi8_Dipper" ; fi
-if [ "$DeviceName" == "polaris" ]; then DevicePathName="XiaoMi_Mix2s_Polaris" ; fi
-if [ "$DeviceName" == "equuleus" ]; then DevicePathName="XiaoMi_Mi8UD_Equuleus" ; fi
-if [ "$DeviceName" == "grus" ]; then DevicePathName="XiaoMi_Mi9SE_Grus" ; fi
-if [ "$DeviceName" == "ursa" ]; then DevicePathName="XiaoMi_Mi8Explorer_Ursa" ; fi
-if [ "$DeviceName" == "sirius" ]; then DevicePathName="XiaoMi_Mi8SE_Sirius" ; fi
-if [ "$DeviceName" == "davinci" ]; then DevicePathName="RedMi_K20_Davinci" ; fi
 
-
+case "$DeviceName" in 
+	"raphael")
+		DevicePathName="RedMi_K20P_Raphael"
+	;;
+	"cepheus")
+		DevicePathName="XiaoMi_Mi9_Cepheus"
+	;;
+	"dipper")
+		DevicePathName="XiaoMi_Mi8_Dipper"
+	;;
+	"polaris")
+		DevicePathName="XiaoMi_Mix2s_Polaris"
+	;;
+	"equuleus")
+		DevicePathName="XiaoMi_Mi8UD_Equuleus"
+	;;
+	"grus")
+		DevicePathName="XiaoMi_Mi9SE_Grus"
+	;;
+	"ursa")
+		DevicePathName="XiaoMi_Mi8Explorer_Ursa"
+	;;
+	"sirius")
+		DevicePathName="XiaoMi_Mi8SE_Sirius"
+	;;
+	"davinci")
+		DevicePathName="RedMi_K20_Davinci"
+	;;
+esac
 
 show "---------------- 打包 ${DeviceName}-${RomVersion} ----------------"
 nowDate=$(date "+%Y.%m.%d")
@@ -41,7 +60,7 @@ mv -f $shFile.zexe $shFile.so
 
 
 #开始打包ROM
-NowDay=$(date "+%Y%m%d")
+NowDay=$(date "+%m%d")
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
 RomName="Hais@${DeviceName^}_${RomVersion}_${NowDay}"
 rm -rf $RomPath

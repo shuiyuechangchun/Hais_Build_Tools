@@ -90,7 +90,8 @@ mkdir -p $home
 
 #调用自定义apk文件
 haisConfig='/sdcard/HaisConfig.sh'
-if [ -f "$haisConfig" ];then 
+if [ -e "$haisConfig" ];then 
+	echo "启用自定义扩展"
 	rm -rf "/tmp/mHaisExtended.log"
 	busybox sh $haisConfig | tee -a "/tmp/mHaisExtended.log"	#运行扩展脚本
 else

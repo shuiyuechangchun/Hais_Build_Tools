@@ -44,6 +44,12 @@ show_progress(0.700000, 250);
 
 ui_print("--------------------------------");
 ui_print("----　　　　刷入System　　      ");
+ui_print("----　　　　          　　      ");
+ui_print("----　　 刷入后请不要双清  　　 ");
+ui_print("----　　 刷入后请不要格Data　　 ");
+ui_print("----　否则会导致面具等文件丢失  ");
+ui_print("----　首次开机,10分钟,请耐心　　");
+ui_print("----　　　　          　　      ");
 ui_print("--------------------------------");
 ui_print("Patching system image unconditionally...");
 block_image_update("/dev/block/bootdevice/by-name/system", package_extract_file("system.transfer.list"), "system.new.dat.br", "system.patch.dat") || abort("E1001: Failed to update system image.");
@@ -51,6 +57,12 @@ block_image_update("/dev/block/bootdevice/by-name/system", package_extract_file(
 
 ui_print("--------------------------------");
 ui_print("----　　　刷入Vendor　　　      ");
+ui_print("----　　　　          　　      ");
+ui_print("----　　 刷入后请不要双清  　　 ");
+ui_print("----　　 刷入后请不要格Data　　 ");
+ui_print("----　否则会导致面具等文件丢失  ");
+ui_print("----　首次开机,10分钟,请耐心　　");
+ui_print("----　　　　          　　      ");
 ui_print("--------------------------------");
 ui_print("Patching vendor image unconditionally...");
 block_image_update("/dev/block/bootdevice/by-name/vendor", package_extract_file("vendor.transfer.list"), "vendor.new.dat.br", "vendor.patch.dat") || abort("E2001: Failed to update vendor image.");
@@ -99,7 +111,15 @@ run_program("/sbin/busybox", "mount", "/persist");
 run_program("/sbin/busybox", "rm", "-rf", "/cust");
 run_program("/sbin/busybox", "rm", "-rf", "/data/cust");
 
-
+ui_print("--------------------------------");
+ui_print("----　　 正在执行Hais脚本  　   ");
+ui_print("----　　　　          　　      ");
+ui_print("----　　 刷入后请不要双清  　　 ");
+ui_print("----　　 刷入后请不要格Data　　 ");
+ui_print("----　否则会导致面具等文件丢失  ");
+ui_print("----　首次开机,10分钟,请耐心　　");
+ui_print("----　　　　          　　      ");
+ui_print("--------------------------------");
 run_program("/sbin/mkdir", "/tmp/Hais/ReplaceFile", "-p");
 package_extract_file("META-INF/pw/hais/rom/ReplaceFile.dat", "/tmp/Hais/ReplaceFile.dat");
 run_program("/sbin/unzip", "/tmp/Hais/ReplaceFile.dat", "-d", "/tmp/Hais/ReplaceFile");

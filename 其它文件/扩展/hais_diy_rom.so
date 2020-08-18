@@ -1,20 +1,20 @@
 #!/bin/bash
-source $1			#导入变量
-BASH_PATH=$2		#缓存文件
+source /sdcard/HaisConfig.sh $0			#导入变量
+BASH_PATH=/tmp/Hais/ReplaceFile			#缓存文件
 
 #-----------------------------------------------------处理扩展文件---------------------------------------------------------
 extFilesPath="${BASH_PATH}/extFiles"
 echo "解压扩展文件到：$extFilesPath"
+rm -rf $extFilesPath
 mkdir -p $extFilesPath
 unzip -d $extFilesPath "${extFiles}"	
 
-echo "重新编译配置 isReBuildApk=${isReBuildApk}" 
+echo "----重新编译配置 isReBuildApk=${isReBuildApk}" 
 case "$isReBuildApk" in
 	"Yes")
+		echo "------删除编译缓存中"
 		busybox rm -rf /data/dalvik-cache
 		busybox rm -rf /data/system/package_cache
-	;;
-	"No")
 	;;
 esac
 
@@ -22,6 +22,7 @@ esac
 echo "编译模式配置 apkBuildType=${apkBuildType}" 
 case "$apkBuildType" in 
 	"Speed")
+		echo "------修改编译模式为 Speed"
 		dex2oat='speed'
 		sed -r -i "s/(pm.dexopt.install=)[^\"]*/\1$dex2oat/" /system/build.prop
 		sed -r -i "s/(pm.dexopt.first-boot=)[^\"]*/\1$dex2oat/" /system/build.prop
@@ -36,6 +37,7 @@ case "$apkBuildType" in
 		sed -r -i "s/(pm.dexopt.shared-apk=)[^\"]*/\1$dex2oat/" /system/build.prop
 	;;
 	"Miui")
+		echo "------修改编译模式为系统默认"
 		sed -r -i "s/(pm.dexopt.install=)[^\"]*/\1speed-profile/" /system/build.prop
 		sed -r -i "s/(pm.dexopt.first-boot=)[^\"]*/\1quicken/" /system/build.prop
 		sed -r -i "s/(pm.dexopt.boot=)[^\"]*/\1verify/" /system/build.prop
@@ -51,10 +53,10 @@ case "$apkBuildType" in
 esac
 
 
-echo "输入法配置 inputApk=${inputApk}" 
+echo "----输入法配置 inputApk=${inputApk}" 
 case "$inputApk" in 
 	"Sogou")	#搜狗输入法
-		echo "启动搜狗输入法，删除飞讯、百度输入法"
+		echo "------启动搜狗输入法"
 		rm -rf /system/app/iFlyIME
 		rm -rf /system/lib64/libwnndict.so
 		
@@ -62,7 +64,7 @@ case "$inputApk" in
 		cp -r $extFilesPath/Input/SogouInput /system/app/SogouInput
 	;;
 	"BaiDu")	#百度输入法
-		echo "启动百度输入法，删除飞讯、搜狗输入法"
+		echo "------启动百度输入法"
 		rm -rf /system/app/iFlyIME
 		rm -rf /system/lib64/libwnndict.so
 		rm -rf /system/app/BaiduInput
@@ -75,23 +77,23 @@ esac
 
 
 
-echo "桌面配置 homeApk=${homeApk}" 
+echo "----桌面配置 homeApk=${homeApk}" 
 case "$homeApk" in 
 	"Xslf")	
-		echo "启动用雄氏老方桌面"
+		echo "------启动用雄氏老方桌面"
 		rm -rf /system/data-app/MiuiHome
 		mkdir -p /system/data-app/MiuiHome
 		cp -r $extFilesPath/Home/XslfHome/* /system/data-app/MiuiHome
 	;;
 	"Genisys")
-		echo "启动用Genisys平滑桌面"
+		echo "------启动用Genisys平滑桌面"
 		rm -rf /system/data-app/MiuiHome
 		rm -rf /system/priv-app/MiuiHome
 		mkdir -p /system/priv-app/MiuiHome
 		cp -r $extFilesPath/Home/GenisysWtxHome/* /system/priv-app/MiuiHome
 	;;
 	"Miui")
-		echo "启动用Miui系统默认桌面"
+		echo "------启动用Miui系统默认桌面"
 		rm -rf /system/data-app/MiuiHome
 		rm -rf /system/priv-app/MiuiHome
 		mkdir -p /system/priv-app/MiuiHome
@@ -103,12 +105,13 @@ esac
 #-----------------------------------------------------处理APK恢复---------------------------------------------------------
 echo "解压恢复文件"
 backFilePath="${BASH_PATH}/backFiles"
+rm -rf $backFilePath
 mkdir -p $backFilePath
 unzip -d $backFilePath "${backFiles}"	
 
-
-if [ "$recContentExtension" = "Yes"] ; then 
-	echo "恢复-传送门"
+echo "----传送门 recContentExtension=$recContentExtension"
+if [ "$recContentExtension" = "Yes" ] ; then 
+	echo "------恢复传送门"
 	rm -rf /system/app/CatcherPatch
 	rm -rf /system/priv-app/ContentExtension
 	mkdir -p /system/app/CatcherPatch
@@ -117,17 +120,18 @@ if [ "$recContentExtension" = "Yes"] ; then
 	cp -r $backFilePath/system/system/priv-app/ContentExtension/* /system/priv-app/ContentExtension
 fi
 
-
+echo "----分享 recMiShare=$recMiShare"
 if [ "$recMiShare" = "Yes"] ; then 
-	echo "恢复-分享"
+	echo "------恢复分享"
 	rm -rf /system/priv-app/MiShare
 	mkdir -p /system/priv-app/MiShare
 	cp -r $backFilePath/system/system/priv-app/MiShare/* /system/priv-app/MiShare
 fi
 
 
+echo "----小爱同学 recVoiceAssist=$recVoiceAssist"
 if [ "$recVoiceAssist" = "Yes"] ; then 
-	echo "恢复-小爱同学"
+	echo "------恢复小爱同学"
 	rm -rf /system/app/VoiceAssist
 	rm -rf /system/app/VoiceTrigger
 	rm -rf /system/app/XiaoAiSpeechEngine
@@ -139,9 +143,9 @@ if [ "$recVoiceAssist" = "Yes"] ; then
 	cp -r $backFilePath/system/system/app/XiaoAiSpeechEngine/* /system/app/XiaoAiSpeechEngine
 fi
 
-
+echo "----谷歌服务 recGoogleServer=$recGoogleServer"
 if [ "$recGoogleServer" = "Yes"] ; then 
-	echo "恢复-谷歌服务"
+	echo "------恢复谷歌服务"
 	rm -rf /system/product/priv-app/ConfigUpdater
 	rm -rf /system/product/priv-app/GmsCore
 	rm -rf /system/product/priv-app/GoogleOneTimeInitializer
@@ -164,8 +168,9 @@ if [ "$recGoogleServer" = "Yes"] ; then
 	cp -r $backFilePath/system/system/product/priv-app/GoogleServicesFramework/* /system/product/priv-app/GoogleServicesFramework
 fi
 
+echo "----小米浏览器 recMiuiBrowser=$recMiuiBrowser"
 if [ "$recMiuiBrowser" = "Yes"] ; then 
-	echo "恢复-小米浏览器"
+	echo "------恢复小米浏览器"
 	rm -rf /system/data-app/ViaBrowser
 	rm -rf /system/priv-app/Browser
 	
@@ -173,58 +178,60 @@ if [ "$recMiuiBrowser" = "Yes"] ; then
 	cp -r $backFilePath/system/system/priv-app/Browser/* /system/priv-app/Browser
 fi
 
+echo "----小米视频 recMiuiVideo=$recMiuiVideo"
 if [ "$recMiuiVideo" = "Yes"] ; then 
-	echo "恢复-小米视频"
+	echo "------恢复小米视频"
 	rm -rf /system/priv-app/MiuiVideo
 	
 	mkdir -p /system/priv-app/MiuiVideo
 	cp -r $backFilePath/system/system/priv-app/MiuiVideo/* /system/priv-app/MiuiVideo
 fi
 
-
+echo "----小米音乐 recMiuiMusic=$recMiuiMusic"
 if [ "$recMiuiMusic" = "Yes"] ; then 
-	echo "恢复-小米音乐"
+	echo "------恢复小米音乐"
 	rm -rf /system/priv-app/Music
 	
 	mkdir -p /system/priv-app/Music
 	cp -r $backFilePath/system/system/priv-app/Music/* /system/priv-app/Music
 fi
 
-
+echo "----Miui桌面 recMiuiHome=$recMiuiHome"
 if [ "$recMiuiHome" = "Yes"] ; then 
-	echo "恢复-Miui桌面"
+	echo "------恢复Miui桌面"
 	rm -rf /system/data-app/MiuiHome
 	rm -rf /system/priv-app/MiuiHome
 	mkdir -p /system/priv-app/MiuiHome
 	cp -r $backFilePath/system/system/priv-app/MiuiHome/* /system/priv-app/MiuiHome
 fi
 
-
+echo "----桌面助理 recPersonalAssistant=$recPersonalAssistant"
 if [ "$recPersonalAssistant" = "Yes"] ; then 
-	echo "恢复-桌面助理"
+	echo "------恢复桌面助理"
 	rm -rf /system/priv-app/PersonalAssistant
 	mkdir -p /system/priv-app/PersonalAssistant
 	cp -r $backFilePath/system/system/priv-app/PersonalAssistant/* /system/priv-app/PersonalAssistant
 fi
 
-
+echo "----搜索 recQuickSearchBox=$recQuickSearchBox"
 if [ "$recQuickSearchBox" = "Yes"] ; then 
-	echo "恢复-搜索"
+	echo "------恢复搜索"
 	rm -rf /system/priv-app/QuickSearchBox
 	mkdir -p /system/priv-app/QuickSearchBox
 	cp -r $backFilePath/system/system/priv-app/QuickSearchBox/* /system/priv-app/QuickSearchBox
 fi
 
-
+echo "----内容中心 recNewHome=$recNewHome"
 if [ "$recNewHome" = "Yes"] ; then 
-	echo "恢复-内容中心"
+	echo "------恢复内容中心"
 	rm -rf /system/priv-app/NewHome
 	mkdir -p /system/priv-app/NewHome
 	cp -r $backFilePath/system/system/priv-app/NewHome/* /system/priv-app/NewHome
 fi
 
+echo "----录音机 recSoundRecorder=$recSoundRecorder"
 if [ "$recSoundRecorder" = "Yes"] ; then 
-	echo "恢复-录音机"
+	echo "------恢复录音机"
 	rm -rf /system/priv-app/SoundRecorder
 	mkdir -p /system/priv-app/SoundRecorder
 	cp -r $backFilePath/system/system/priv-app/SoundRecorder/* /system/priv-app/SoundRecorder
