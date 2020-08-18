@@ -1,0 +1,265 @@
+#!/bin/bash
+source $1			#导入变量
+BASH_PATH=$2		#缓存文件
+
+#-----------------------------------------------------处理扩展文件---------------------------------------------------------
+extFilesPath="${BASH_PATH}/extFiles"
+echo "解压扩展文件到：$extFilesPath"
+mkdir -p $extFilesPath
+unzip -d $extFilesPath "${extFiles}"	
+
+echo "重新编译配置 isReBuildApk=${isReBuildApk}" 
+case "$isReBuildApk" in
+	"Yes")
+		busybox rm -rf /data/dalvik-cache
+		busybox rm -rf /data/system/package_cache
+	;;
+	"No")
+	;;
+esac
+
+
+echo "编译模式配置 apkBuildType=${apkBuildType}" 
+case "$apkBuildType" in 
+	"Speed")
+		dex2oat='speed'
+		sed -r -i "s/(pm.dexopt.install=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.first-boot=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.boot=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.bg-dexopt=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.ab-ota=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.inactive=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.shared=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.core-app=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.forced-dexopt=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.nsys-library=)[^\"]*/\1$dex2oat/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.shared-apk=)[^\"]*/\1$dex2oat/" /system/build.prop
+	;;
+	"Miui")
+		sed -r -i "s/(pm.dexopt.install=)[^\"]*/\1speed-profile/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.first-boot=)[^\"]*/\1quicken/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.boot=)[^\"]*/\1verify/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.bg-dexopt=)[^\"]*/\1speed-profile/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.ab-ota=)[^\"]*/\1speed-profile/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.inactive=)[^\"]*/\1verify/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.shared=)[^\"]*/\1speed/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.core-app=)[^\"]*/\1speed/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.forced-dexopt=)[^\"]*/\1speed/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.nsys-library=)[^\"]*/\1speed/" /system/build.prop
+		sed -r -i "s/(pm.dexopt.shared-apk=)[^\"]*/\1speed/" /system/build.prop
+	;;
+esac
+
+
+echo "输入法配置 inputApk=${inputApk}" 
+case "$inputApk" in 
+	"Sogou")	#搜狗输入法
+		echo "启动搜狗输入法，删除飞讯、百度输入法"
+		rm -rf /system/app/iFlyIME
+		rm -rf /system/lib64/libwnndict.so
+		
+		rm -rf /system/app/SogouInput
+		cp -r $extFilesPath/Input/SogouInput /system/app/SogouInput
+	;;
+	"BaiDu")	#百度输入法
+		echo "启动百度输入法，删除飞讯、搜狗输入法"
+		rm -rf /system/app/iFlyIME
+		rm -rf /system/lib64/libwnndict.so
+		rm -rf /system/app/BaiduInput
+		rm -rf /system/lib64/libime_graphics.so
+		mv $extFilesPath/Input/BaiduInput/libime_graphics.so /system/lib64/libime_graphics.so
+		cp -r $extFilesPath/Input/BaiduInput /system/app/BaiduInput
+	;;
+esac
+
+
+
+
+echo "桌面配置 homeApk=${homeApk}" 
+case "$homeApk" in 
+	"Xslf")	
+		echo "启动用雄氏老方桌面"
+		rm -rf /system/data-app/MiuiHome
+		mkdir -p /system/data-app/MiuiHome
+		cp -r $extFilesPath/Home/XslfHome/* /system/data-app/MiuiHome
+	;;
+	"Genisys")
+		echo "启动用Genisys平滑桌面"
+		rm -rf /system/data-app/MiuiHome
+		rm -rf /system/priv-app/MiuiHome
+		mkdir -p /system/priv-app/MiuiHome
+		cp -r $extFilesPath/Home/GenisysWtxHome/* /system/priv-app/MiuiHome
+	;;
+	"Miui")
+		echo "启动用Miui系统默认桌面"
+		rm -rf /system/data-app/MiuiHome
+		rm -rf /system/priv-app/MiuiHome
+		mkdir -p /system/priv-app/MiuiHome
+		cp -r $extFilesPath/Home/MiuiHome/* /system/priv-app/MiuiHome
+	;;
+esac
+
+
+#-----------------------------------------------------处理APK恢复---------------------------------------------------------
+echo "解压恢复文件"
+backFilePath="${BASH_PATH}/backFiles"
+mkdir -p $backFilePath
+unzip -d $backFilePath "${backFiles}"	
+
+
+if [ "$recContentExtension" = "Yes"] ; then 
+	echo "恢复-传送门"
+	rm -rf /system/app/CatcherPatch
+	rm -rf /system/priv-app/ContentExtension
+	mkdir -p /system/app/CatcherPatch
+	mkdir -p /system/priv-app/ContentExtension
+	cp -r $backFilePath/system/system/app/CatcherPatch/* /system/app/CatcherPatch
+	cp -r $backFilePath/system/system/priv-app/ContentExtension/* /system/priv-app/ContentExtension
+fi
+
+
+if [ "$recMiShare" = "Yes"] ; then 
+	echo "恢复-分享"
+	rm -rf /system/priv-app/MiShare
+	mkdir -p /system/priv-app/MiShare
+	cp -r $backFilePath/system/system/priv-app/MiShare/* /system/priv-app/MiShare
+fi
+
+
+if [ "$recVoiceAssist" = "Yes"] ; then 
+	echo "恢复-小爱同学"
+	rm -rf /system/app/VoiceAssist
+	rm -rf /system/app/VoiceTrigger
+	rm -rf /system/app/XiaoAiSpeechEngine
+	mkdir -p /system/app/VoiceAssist
+	mkdir -p /system/app/VoiceTrigger
+	mkdir -p /system/app/XiaoAiSpeechEngine
+	cp -r $backFilePath/system/system/app/VoiceAssist/* /system/app/VoiceAssist
+	cp -r $backFilePath/system/system/app/VoiceTrigger/* /system/app/VoiceTrigger
+	cp -r $backFilePath/system/system/app/XiaoAiSpeechEngine/* /system/app/XiaoAiSpeechEngine
+fi
+
+
+if [ "$recGoogleServer" = "Yes"] ; then 
+	echo "恢复-谷歌服务"
+	rm -rf /system/product/priv-app/ConfigUpdater
+	rm -rf /system/product/priv-app/GmsCore
+	rm -rf /system/product/priv-app/GoogleOneTimeInitializer
+	rm -rf /system/product/priv-app/GooglePartnerSetup
+	rm -rf /system/product/priv-app/GooglePlayServicesUpdater
+	rm -rf /system/product/priv-app/GoogleServicesFramework
+	
+	mkdir -p /system/product/priv-app/ConfigUpdater
+	mkdir -p /system/product/priv-app/GmsCore
+	mkdir -p /system/product/priv-app/GoogleOneTimeInitializer
+	mkdir -p /system/product/priv-app/GooglePartnerSetup
+	mkdir -p /system/product/priv-app/GooglePlayServicesUpdater
+	mkdir -p /system/product/priv-app/GoogleServicesFramework
+	
+	cp -r $backFilePath/system/system/product/priv-app/ConfigUpdater/* /system/product/priv-app/ConfigUpdater
+	cp -r $backFilePath/system/system/product/priv-app/GmsCore/* /system/product/priv-app/GmsCore
+	cp -r $backFilePath/system/system/product/priv-app/GoogleOneTimeInitializer/* /system/product/priv-app/GoogleOneTimeInitializer
+	cp -r $backFilePath/system/system/product/priv-app/GooglePartnerSetup/* /system/product/priv-app/GooglePartnerSetup
+	cp -r $backFilePath/system/system/product/priv-app/GooglePlayServicesUpdater/* /system/product/priv-app/GooglePlayServicesUpdater
+	cp -r $backFilePath/system/system/product/priv-app/GoogleServicesFramework/* /system/product/priv-app/GoogleServicesFramework
+fi
+
+if [ "$recMiuiBrowser" = "Yes"] ; then 
+	echo "恢复-小米浏览器"
+	rm -rf /system/data-app/ViaBrowser
+	rm -rf /system/priv-app/Browser
+	
+	mkdir -p /system/priv-app/Browser
+	cp -r $backFilePath/system/system/priv-app/Browser/* /system/priv-app/Browser
+fi
+
+if [ "$recMiuiVideo" = "Yes"] ; then 
+	echo "恢复-小米视频"
+	rm -rf /system/priv-app/MiuiVideo
+	
+	mkdir -p /system/priv-app/MiuiVideo
+	cp -r $backFilePath/system/system/priv-app/MiuiVideo/* /system/priv-app/MiuiVideo
+fi
+
+
+if [ "$recMiuiMusic" = "Yes"] ; then 
+	echo "恢复-小米音乐"
+	rm -rf /system/priv-app/Music
+	
+	mkdir -p /system/priv-app/Music
+	cp -r $backFilePath/system/system/priv-app/Music/* /system/priv-app/Music
+fi
+
+
+if [ "$recMiuiHome" = "Yes"] ; then 
+	echo "恢复-Miui桌面"
+	rm -rf /system/data-app/MiuiHome
+	rm -rf /system/priv-app/MiuiHome
+	mkdir -p /system/priv-app/MiuiHome
+	cp -r $backFilePath/system/system/priv-app/MiuiHome/* /system/priv-app/MiuiHome
+fi
+
+
+if [ "$recPersonalAssistant" = "Yes"] ; then 
+	echo "恢复-桌面助理"
+	rm -rf /system/priv-app/PersonalAssistant
+	mkdir -p /system/priv-app/PersonalAssistant
+	cp -r $backFilePath/system/system/priv-app/PersonalAssistant/* /system/priv-app/PersonalAssistant
+fi
+
+
+if [ "$recQuickSearchBox" = "Yes"] ; then 
+	echo "恢复-搜索"
+	rm -rf /system/priv-app/QuickSearchBox
+	mkdir -p /system/priv-app/QuickSearchBox
+	cp -r $backFilePath/system/system/priv-app/QuickSearchBox/* /system/priv-app/QuickSearchBox
+fi
+
+
+if [ "$recNewHome" = "Yes"] ; then 
+	echo "恢复-内容中心"
+	rm -rf /system/priv-app/NewHome
+	mkdir -p /system/priv-app/NewHome
+	cp -r $backFilePath/system/system/priv-app/NewHome/* /system/priv-app/NewHome
+fi
+
+if [ "$recSoundRecorder" = "Yes"] ; then 
+	echo "恢复-录音机"
+	rm -rf /system/priv-app/SoundRecorder
+	mkdir -p /system/priv-app/SoundRecorder
+	cp -r $backFilePath/system/system/priv-app/SoundRecorder/* /system/priv-app/SoundRecorder
+fi
+
+
+if [ "$recCleanMaster" = "Yes"] ; then 
+	echo "恢复-垃圾清理"
+	rm -rf /system/data-app/CleanMaster
+	mkdir -p /system/data-app/CleanMaster
+	cp -r $backFilePath/system/system/data-app/CleanMaster/* /system/data-app/CleanMaster
+fi
+
+if [ "$recNotes" = "Yes"] ; then 
+	echo "恢复-记事本"
+	rm -rf /system/data-app/Notes
+	mkdir -p /system/data-app/Notes
+	cp -r $backFilePath/system/system/data-app/Notes/* /system/data-app/Notes
+fi
+
+if [ "$recWeather" = "Yes"] ; then 
+	echo "恢复-天气"
+	rm -rf /system/data-app/Weather
+	mkdir -p /system/data-app/Weather
+	cp -r $backFilePath/system/system/data-app/Weather/* /system/data-app/Weather
+fi
+
+if [ "$recXMPass" = "Yes"] ; then 
+	echo "恢复-指南针"
+	rm -rf /system/data-app/XMPass
+	mkdir -p /system/data-app/XMPass
+	cp -r $backFilePath/system/system/data-app/XMPass/* /system/data-app/XMPass
+fi
+
+
+
+
+

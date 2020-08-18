@@ -7,8 +7,6 @@ busybox rm -rf /cache/lost+found
 busybox rm -rf /data/lost+found
 busybox rm -rf /data/magisk_backup_*
 busybox rm -rf /mnt/vendor/persist/lost+found
-busybox rm -rf /data/dalvik-cache
-busybox rm -rf /data/system/package_cache
 
 
 #替换system所有文件
@@ -92,16 +90,11 @@ mkdir -p $home
 
 #调用自定义apk文件
 haisConfig='/sdcard/HaisConfig.sh'
-if [ -n "$haisConfig" ];then 
-	source $haisConfig		#导入变量
-	if [ -n "$backFiles" ];then
-		mkdir -p "${BASH_PATH}/backFiles"
-		unzip -d "${BASH_PATH}/backFiles" "$backFiles"		#解压扩展文件
-		busybox sh "${BASH_PATH}/backFiles/hais_diy_rom.so" "$haisConfig" | tee -a "${BASH_PATH}/backFiles.log"	#运行扩展脚本
-	fi
-	if [ -n "$extFiles" ];then
-		mkdir -p "${BASH_PATH}/extFiles"
-		unzip -d "${BASH_PATH}/extFiles" "$extFiles"		#解压扩展文件
-		busybox sh "${BASH_PATH}/extFiles/hais_diy_rom.so" "$haisConfig" | tee -a "${BASH_PATH}/extFiles.log"	#运行扩展脚本
-	fi
+if [ -f "$haisConfig" ];then 
+	rm -rf "/tmp/mHaisExtended.log"
+	busybox sh $haisConfig | tee -a "/tmp/mHaisExtended.log"	#运行扩展脚本
+else
+	#默认删除编译
+	busybox rm -rf /data/dalvik-cache
+	busybox rm -rf /data/system/package_cache
 fi
