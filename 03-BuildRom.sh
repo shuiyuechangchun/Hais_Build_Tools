@@ -43,7 +43,7 @@ mv -f $shFile.zexe $shFile.so
 #开始打包ROM
 NowDay=$(date "+%Y%m%d")
 RomPath=$WORK_ROM_PATH/$DevicePathName/${DeviceName^}_${RomVersion}
-RomName="Hais@${NowDay}_Build_${DeviceName^}_${RomVersion}"
+RomName="Hais@${DeviceName^}_${RomVersion}_${NowDay}"
 rm -rf $RomPath
 mkdir -p $RomPath
 
