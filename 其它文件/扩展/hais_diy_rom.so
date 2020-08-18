@@ -121,7 +121,7 @@ if [ "$recContentExtension" = "Yes" ] ; then
 fi
 
 echo "----分享 recMiShare=$recMiShare"
-if [ "$recMiShare" = "Yes"] ; then 
+if [ "$recMiShare" = "Yes" ] ; then 
 	echo "------恢复分享"
 	rm -rf /system/priv-app/MiShare
 	mkdir -p /system/priv-app/MiShare
@@ -130,7 +130,7 @@ fi
 
 
 echo "----小爱同学 recVoiceAssist=$recVoiceAssist"
-if [ "$recVoiceAssist" = "Yes"] ; then 
+if [ "$recVoiceAssist" = "Yes" ] ; then 
 	echo "------恢复小爱同学"
 	rm -rf /system/app/VoiceAssist
 	rm -rf /system/app/VoiceTrigger
@@ -144,7 +144,7 @@ if [ "$recVoiceAssist" = "Yes"] ; then
 fi
 
 echo "----谷歌服务 recGoogleServer=$recGoogleServer"
-if [ "$recGoogleServer" = "Yes"] ; then 
+if [ "$recGoogleServer" = "Yes" ] ; then 
 	echo "------恢复谷歌服务"
 	rm -rf /system/product/priv-app/ConfigUpdater
 	rm -rf /system/product/priv-app/GmsCore
@@ -169,7 +169,7 @@ if [ "$recGoogleServer" = "Yes"] ; then
 fi
 
 echo "----小米浏览器 recMiuiBrowser=$recMiuiBrowser"
-if [ "$recMiuiBrowser" = "Yes"] ; then 
+if [ "$recMiuiBrowser" = "Yes" ] ; then 
 	echo "------恢复小米浏览器"
 	rm -rf /system/data-app/ViaBrowser
 	rm -rf /system/priv-app/Browser
@@ -179,7 +179,7 @@ if [ "$recMiuiBrowser" = "Yes"] ; then
 fi
 
 echo "----小米视频 recMiuiVideo=$recMiuiVideo"
-if [ "$recMiuiVideo" = "Yes"] ; then 
+if [ "$recMiuiVideo" = "Yes" ] ; then 
 	echo "------恢复小米视频"
 	rm -rf /system/priv-app/MiuiVideo
 	
@@ -188,7 +188,7 @@ if [ "$recMiuiVideo" = "Yes"] ; then
 fi
 
 echo "----小米音乐 recMiuiMusic=$recMiuiMusic"
-if [ "$recMiuiMusic" = "Yes"] ; then 
+if [ "$recMiuiMusic" = "Yes" ] ; then 
 	echo "------恢复小米音乐"
 	rm -rf /system/priv-app/Music
 	
@@ -197,7 +197,7 @@ if [ "$recMiuiMusic" = "Yes"] ; then
 fi
 
 echo "----Miui桌面 recMiuiHome=$recMiuiHome"
-if [ "$recMiuiHome" = "Yes"] ; then 
+if [ "$recMiuiHome" = "Yes" ] ; then 
 	echo "------恢复Miui桌面"
 	rm -rf /system/data-app/MiuiHome
 	rm -rf /system/priv-app/MiuiHome
@@ -206,7 +206,7 @@ if [ "$recMiuiHome" = "Yes"] ; then
 fi
 
 echo "----桌面助理 recPersonalAssistant=$recPersonalAssistant"
-if [ "$recPersonalAssistant" = "Yes"] ; then 
+if [ "$recPersonalAssistant" = "Yes" ] ; then 
 	echo "------恢复桌面助理"
 	rm -rf /system/priv-app/PersonalAssistant
 	mkdir -p /system/priv-app/PersonalAssistant
@@ -214,7 +214,7 @@ if [ "$recPersonalAssistant" = "Yes"] ; then
 fi
 
 echo "----搜索 recQuickSearchBox=$recQuickSearchBox"
-if [ "$recQuickSearchBox" = "Yes"] ; then 
+if [ "$recQuickSearchBox" = "Yes" ] ; then 
 	echo "------恢复搜索"
 	rm -rf /system/priv-app/QuickSearchBox
 	mkdir -p /system/priv-app/QuickSearchBox
@@ -222,7 +222,7 @@ if [ "$recQuickSearchBox" = "Yes"] ; then
 fi
 
 echo "----内容中心 recNewHome=$recNewHome"
-if [ "$recNewHome" = "Yes"] ; then 
+if [ "$recNewHome" = "Yes" ] ; then 
 	echo "------恢复内容中心"
 	rm -rf /system/priv-app/NewHome
 	mkdir -p /system/priv-app/NewHome
@@ -230,7 +230,7 @@ if [ "$recNewHome" = "Yes"] ; then
 fi
 
 echo "----录音机 recSoundRecorder=$recSoundRecorder"
-if [ "$recSoundRecorder" = "Yes"] ; then 
+if [ "$recSoundRecorder" = "Yes" ] ; then 
 	echo "------恢复录音机"
 	rm -rf /system/priv-app/SoundRecorder
 	mkdir -p /system/priv-app/SoundRecorder
@@ -238,28 +238,28 @@ if [ "$recSoundRecorder" = "Yes"] ; then
 fi
 
 
-if [ "$recCleanMaster" = "Yes"] ; then 
+if [ "$recCleanMaster" = "Yes" ] ; then 
 	echo "恢复-垃圾清理"
 	rm -rf /system/data-app/CleanMaster
 	mkdir -p /system/data-app/CleanMaster
 	cp -r $backFilePath/system/system/data-app/CleanMaster/* /system/data-app/CleanMaster
 fi
 
-if [ "$recNotes" = "Yes"] ; then 
+if [ "$recNotes" = "Yes" ] ; then 
 	echo "恢复-记事本"
 	rm -rf /system/data-app/Notes
 	mkdir -p /system/data-app/Notes
 	cp -r $backFilePath/system/system/data-app/Notes/* /system/data-app/Notes
 fi
 
-if [ "$recWeather" = "Yes"] ; then 
+if [ "$recWeather" = "Yes" ] ; then 
 	echo "恢复-天气"
 	rm -rf /system/data-app/Weather
 	mkdir -p /system/data-app/Weather
 	cp -r $backFilePath/system/system/data-app/Weather/* /system/data-app/Weather
 fi
 
-if [ "$recXMPass" = "Yes"] ; then 
+if [ "$recXMPass" = "Yes" ] ; then 
 	echo "恢复-指南针"
 	rm -rf /system/data-app/XMPass
 	mkdir -p /system/data-app/XMPass
