@@ -83,7 +83,7 @@ persist.sys.perf.debug=false
 ro.fod.dimlayer.enable=false
 
 
-# Fuck MIUI
+# 以下来自雄氏老方
 pm.dexopt.install=everything
 hw3d.force=1
 hw2d.force=1
