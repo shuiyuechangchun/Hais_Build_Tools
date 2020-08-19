@@ -74,8 +74,8 @@ fileMd5=`md5sum "${WORK_TMP_PATH}/${RomName}.tmp"`
 fileName="${RomName}_${fileMd5:0:8}.zip"
 mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 
-#show ">>>>正在制作 面具 文件"
-#bash ./04-CreateMagisk.sh $DevicePathName
+show ">>>>正在制作 面具 文件"
+bash ./04-CreateMagisk.sh $DevicePathName
 
 show ">>>>正在压缩 备份 文件"
 rm -rf "${WORK_BAK_PATH}/firmware-update"
@@ -91,4 +91,4 @@ mkdir -p "$path"
 sudo rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
-sudo rm -rf ${BASE_PATH}
+#sudo rm -rf ${BASE_PATH}
