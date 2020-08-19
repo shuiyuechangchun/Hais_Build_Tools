@@ -85,7 +85,14 @@ rm -rf $home
 mkdir -p $home
 #chmod 000 $home
 #busybox chattr +i $home	#不可读会导致界面不可保存
-	
+
+
+#增加相机内测功能
+touch /sdcard/DCIM/Camera/lab_options_visible
+#去除安全中心广告
+rm -rf /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
+touch /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
+busybox chmod 000 /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
 
 
 #调用自定义apk文件

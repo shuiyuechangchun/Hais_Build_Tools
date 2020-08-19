@@ -8,6 +8,15 @@ ro.miui.region=CN
 persist.vendor.vcb.enable=true
 persist.vendor.vcb.ability=true
 
+#据说可以开启 视频工具箱的 MEMC动态补偿
+ro.vendor.media.video.frc.support=true
+
+#据说可以显示 更多设置 清理扬声器
+ro.vendor.audio.spk.clean=true
+
+#据说可以显示 音质音效 里面的 听感调节
+ro.vendor.audio.sfx.earadj=true
+
 #调整支持androidApk版本
 ro.build.version.min_supported_target_sdk=17
 
