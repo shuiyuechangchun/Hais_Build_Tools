@@ -89,10 +89,26 @@ mkdir -p $home
 
 #增加相机内测功能
 touch /sdcard/DCIM/Camera/lab_options_visible
+
 #去除安全中心广告
 rm -rf /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
 touch /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
 busybox chmod 000 /data/data/com.miui.securitycenter/files/securityscan_homelist_cache
+
+#去除 抖音广告
+rm -rf /storage/emulated/0/Android/data/com.ss.android.ugc.aweme/splashCache
+touch /storage/emulated/0/Android/data/com.ss.android.ugc.aweme/splashCache
+busybox chmod 000 /storage/emulated/0/Android/data/com.ss.android.ugc.aweme/splashCache
+
+#去除 网易云广告
+rm -rf /storage/emulated/0/Android/data/com.netease.cloudmusic/cache/ad
+touch /storage/emulated/0/Android/data/com.netease.cloudmusic/cache/ad
+busybox chmod 000 /storage/emulated/0/Android/data/com.netease.cloudmusic/cache/ad
+
+#去除 咸鱼开屏广告
+rm -rf /storage/emulated/0/Android/data/com.taobao.idlefish/files/ad
+touch /storage/emulated/0/Android/data/com.taobao.idlefish/files/ad
+busybox chmod 000 /storage/emulated/0/Android/data/com.taobao.idlefish/files/ad
 
 
 #调用自定义apk文件
