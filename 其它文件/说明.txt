@@ -43,7 +43,7 @@ deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free con
 EOF
 
 #安装软件
-apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full zipalign
+apt update && apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full aapt
 
 #拉取代码
 git clone https://gitee.com/hais/Hais_Build_Tools.git
@@ -85,7 +85,7 @@ sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.c
 pkg update
 
 #安装依赖
-pkg install git wget tsu zip brotli python p7zip cpio curl ncurses-utils
+pkg install git wget tsu zip brotli python p7zip cpio curl ncurses-utils aapt
 #安装OpenJdk
 #wget https://github.com/nibazshab/nibazshab.github.io/releases/download/08/08.deb
 #dpkg -i 08.deb
