@@ -179,7 +179,13 @@ DELETE_VENDOR="/vendor/app/GFManager/
 /vendor/app/aiasst_service/
 /vendor/data-app/
 /vendor/etc/scve/
-/vendor/app/GFTest/"
+/vendor/app/GFTest/
+/vendor/etc/spk.wav
+/vendor/etc/spk_cal_pinknoise.wav
+/vendor/etc/spk_cal_silence.wav
+/vendor/etc/spk_cal_whitenoise.wav
+/vendor/etc/test.wav
+"
 
 
 

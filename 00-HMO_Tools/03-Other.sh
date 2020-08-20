@@ -3,17 +3,24 @@ BINS=$PWD/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
 
-show ">>>>>>优化 build.prop 文件"
+show ">>>>>>优化 Vendor build.prop 文件"
+OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
+SYS_FILE=/vendor/build.prop	#系统文件所在路径
+mergeEndBack $SYS_FILE $OthorFiles/vendor/mergeBuild.prop
+
+show ">>>>>>优化 System build.prop 文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/build.prop	#系统文件所在路径
-mergeEndBack $SYS_FILE $OthorFiles/system.prop
+mergeEndBack $SYS_FILE $OthorFiles/system/mergeBuild.prop
 sed -i '/ro.build.version.min_supported_target_sdk=23/d' $WORK_SRC_PATH/$SYS_FILE
 
 
-show ">>>>>>优化 prop.default 文件"
+show ">>>>>>优化 System prop.default 文件"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
 SYS_FILE=/system/system/etc/prop.default	#系统文件所在路径
-mergeEndBack $SYS_FILE $OthorFiles/prop.default
+mergeEndBack $SYS_FILE $OthorFiles/system/mergeProp.default
+
+
 #修改编译模式
 sed -i '/pm.dexopt.first-boot=quicken/d' $WORK_SRC_PATH/$SYS_FILE
 sed -i '/pm.dexopt.boot=verify/d' $WORK_SRC_PATH/$SYS_FILE
