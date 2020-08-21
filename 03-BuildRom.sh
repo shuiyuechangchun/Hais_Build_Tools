@@ -88,7 +88,7 @@ show ">>>>正在压缩 日记 文件"
 show ">>>>正在移动最终文件到ROM目录"
 path="${BASE_PATH}/../Q群：616490741/$DevicePathName"
 mkdir -p "$path"
-sudo rm -rf "${path}/${DeviceName^}_${RomVersion}"
+rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
-sudo rm -rf ${BASE_PATH}
+rm -rf ${BASE_PATH}

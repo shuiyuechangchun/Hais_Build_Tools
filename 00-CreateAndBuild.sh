@@ -8,13 +8,13 @@ if [ ! -n "$IS_ZIP" ] ; then IS_ZIP=1;fi;
 ROM_BUILD_FILE="./11-Build_Temp/Hais_Build_Tools_${1##*/}"
 
 #开始做准备工作
-sudo chmod 0777 *
-sudo chmod 0777 ./00-Bins/*
-sudo chmod 0777 ./00-Bins/boot/*
+chmod 0777 *
+chmod 0777 ./00-Bins/*
+chmod 0777 ./00-Bins/boot/*
 
 printf "\033c"
 echo ">正在清理坟墓，请耐心等待~~~"
-sudo rm -rf $ROM_BUILD_FILE
+rm -rf $ROM_BUILD_FILE
 echo ">创建编译目录：${ROM_BUILD_FILE}"
 mkdir -p $ROM_BUILD_FILE
 mkdir -p ${ROM_BUILD_FILE}/11-TempWork 
@@ -24,9 +24,9 @@ echo ">开始0${IS_ZIP}级编译：${ROM_FILE}"
 
 
 cd ./$ROM_BUILD_FILE
-sudo bash ./01-UnpackRom.sh ../../$ROM_FILE
-sudo bash ./02-StartHMO.sh ../../$ROM_FILE
-sudo bash ./03-BuildRom.sh ../../$ROM_FILE
+bash ./01-UnpackRom.sh ../../$ROM_FILE
+bash ./02-StartHMO.sh ../../$ROM_FILE
+bash ./03-BuildRom.sh ../../$ROM_FILE
 cd $BASE_PATH
 
 

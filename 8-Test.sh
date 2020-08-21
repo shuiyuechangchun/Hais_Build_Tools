@@ -8,7 +8,7 @@ ApkTools="java -jar $PWD/00-Bins/apktool.jar"
 
 
 
-sudo bash ./01-UnpackRom.sh ../../$ROM_FILE
+bash ./01-UnpackRom.sh ../../$ROM_FILE
 
 
 show ">>>>>>关闭WIFI日记文件"
