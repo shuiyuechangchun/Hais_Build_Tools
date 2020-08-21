@@ -8,8 +8,6 @@ source $BINS/_init_hais_tools_		#依赖目录
 #---------------------------------多机型适配-------------------------------------
 DeviceName=$(getProp "ro.product.system.device")
 RomVersion=$(getProp "ro.system.build.version.incremental")
-if [ ! -n "$DeviceName" ] ; then DeviceName=$(getProp "ro.product.device") ;fi;
-if [ ! -n "$RomVersion" ] ; then RomVersion=$(getProp "ro.build.version.incremental") ;fi;
 
 case "$DeviceName" in 
 	"raphael")
@@ -93,4 +91,4 @@ mkdir -p "$path"
 sudo rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
-#sudo rm -rf ${BASE_PATH}
+sudo rm -rf ${BASE_PATH}

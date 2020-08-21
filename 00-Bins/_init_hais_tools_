@@ -138,7 +138,6 @@ mergeEndBack(){	#传入原文件 和 需要增加的文件 mergeEndBack 原始.t
 doUnApk(){	#反编译软件修改
 	DeviceName=$(getProp "ro.product.system.device")
 	AndroidApi=$(getProp 'ro.build.version.sdk')
-	if [ ! -n "$DeviceName" ] ; then DeviceName=$(getProp "ro.product.device") ;fi;
 	show "反编译：${1}"
 	TMP_FILE_PATH=$WORK_TMP_PATH/${1##*/}
 	rm -rf $TMP_FILE_PATH
