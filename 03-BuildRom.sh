@@ -37,6 +37,9 @@ case "$DeviceName" in
 	"davinci")
 		DevicePathName="RedMi_K20_Davinci"
 	;;
+	"crux")
+		DevicePathName="XiaoMi_Mi9Pro_Crux"
+	;;
 esac
 
 show "---------------- 打包 ${DeviceName}-${RomVersion} ----------------"

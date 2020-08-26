@@ -12,10 +12,6 @@ $WORK_BAK_PATH/system/system/priv-app/ContentExtension
 $WORK_BAK_PATH/system/system/app/CatcherPatch
 " &
 
-createMagisk ${1} "分享和互传" "
-$WORK_BAK_PATH/system/system/priv-app/MiShare
-" &
-
 mv -f "$WORK_BAK_PATH/system/system/data-app/XiaoAiSpeechEngine" "$WORK_BAK_PATH/system/system/app/XiaoAiSpeechEngine"
 createMagisk ${1} "小爱语音恢复" "
 $WORK_BAK_PATH/system/system/app/VoiceAssist
@@ -32,13 +28,5 @@ $WORK_BAK_PATH/system/system/priv-app/MiuiHome
 $WORK_BAK_PATH/system/system/priv-app/QuickSearchBox
 " &
 
-createMagisk ${1} "谷歌服务" "
-$WORK_BAK_PATH/system/system/product/priv-app/GmsCore
-$WORK_BAK_PATH/system/system/product/priv-app/GoogleOneTimeInitializer
-$WORK_BAK_PATH/system/system/product/priv-app/GooglePartnerSetup
-$WORK_BAK_PATH/system/system/product/priv-app/GooglePlayServicesUpdater
-$WORK_BAK_PATH/system/system/product/priv-app/GoogleServicesFramework
-$WORK_BAK_PATH/system/system/product/priv-app/ConfigUpdater
-" &
 wait
 

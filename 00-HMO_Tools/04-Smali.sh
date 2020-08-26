@@ -27,7 +27,7 @@ doUnApk "/system/system/framework/miuisystemsdk@boot.jar" "$SMALI_TEMP/miuisyste
 doUnApk "/system/system/priv-app/MiuiPackageInstaller/MiuiPackageInstaller.apk" "$SMALI_TEMP/MiuiPackageInstaller.apk"
 
 #开放电源键 Settings.jar
-doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Settings.apk"
+#doUnApk "/system/system/product/priv-app/Settings/Settings.apk" "$SMALI_TEMP/Settings.apk"
 
 
 #破解主题 ThemeManager.apk miuisystem.apk

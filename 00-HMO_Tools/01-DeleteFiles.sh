@@ -3,6 +3,7 @@ BINS=$PWD/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
 #/system/app/securityadd
+#/system/app/goodix_sz
 DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/VoiceAssist
 /system/app/VoiceTrigger
@@ -13,7 +14,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/BuiltInPrintService
 /system/app/WallpaperBackup
 /system/app/BluetoothMidiService
-/system/app/goodix_sz
 /system/app/GooglePrintRecommendationService
 /system/app/MiLinkService2
 /system/app/Joyose
@@ -83,16 +83,15 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/CatcherPatch
 /system/app/MiuiAccessibility
 /system/priv-app/ContentExtension
-/system/priv-app/MiShare
 /system/priv-app/NewHome
 /system/priv-app/PersonalAssistant
+/system/priv-app/Browser
 /system/product/priv-app/GmsCore
 /system/product/priv-app/GooglePartnerSetup
 /system/product/priv-app/GooglePlayServicesUpdater
 /system/product/priv-app/GoogleServicesFramework
 /system/product/priv-app/GoogleOneTimeInitializer
 /system/priv-app/BlockedNumberProvider
-/system/priv-app/Browser
 /system/priv-app/CallLogBackup
 /system/priv-app/DMRegService
 /system/priv-app/MiGameCenterSDKService
@@ -103,7 +102,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/priv-app/MusicFX
 /system/priv-app/com.qualcomm.location
 /system/priv-app/QuickSearchBox
-/system/priv-app/SoundRecorder
 /system/app/systemAdSolution
 /system/app/MSA-CN-NO_INSTALL_PACKAGE
 /system/app/talkback
@@ -142,35 +140,8 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/product/priv-app/EmergencyInfo
 /system/product/priv-app/seccamservice
 /system/product/priv-app/ConfigUpdater
-/system/data-app
 /system/etc/auto-install.json
 /system/vendor/data-app
-/system/media/audio/notifications/Bottle.ogg
-/system/media/audio/notifications/Bubble.ogg
-/system/media/audio/notifications/Bullfrog.ogg
-/system/media/audio/notifications/Burst.ogg
-/system/media/audio/notifications/Chirp.ogg
-/system/media/audio/notifications/Clank.ogg
-/system/media/audio/notifications/Crystal.ogg
-/system/media/audio/notifications/FadeIn.ogg
-/system/media/audio/notifications/FadeOut.ogg
-/system/media/audio/notifications/Flute.ogg
-/system/media/audio/notifications/Fresh.ogg
-/system/media/audio/notifications/Frog.ogg
-/system/media/audio/notifications/Harp.ogg
-/system/media/audio/notifications/IncomingMessage.ogg
-/system/media/audio/notifications/MessageSent.ogg
-/system/media/audio/notifications/Moment.ogg
-/system/media/audio/notifications/Potion.ogg
-/system/media/audio/notifications/Radar.ogg
-/system/media/audio/notifications/Spring.ogg
-/system/media/audio/notifications/Swoosh.ogg
-/system/media/audio/alarms/AlarmClock.ogg
-/system/media/audio/alarms/Beep.ogg
-/system/media/audio/alarms/Breeze.ogg
-/system/media/audio/alarms/Chimes.ogg
-/system/media/audio/alarms/Morning.ogg
-/system/media/audio/alarms/Sunrise.ogg
 /system/etc/fake_cdrom_install.iso
 /system/app/SogouInput
 /verity_key"
