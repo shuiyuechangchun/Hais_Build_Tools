@@ -45,5 +45,4 @@ mv -f $WORK_TMP_PATH/vendor_file_contexts $WORK_TMP_PATH/vendor_fs_config -t $WO
 mv -f $WORK_TMP_PATH/system.patch.dat $WORK_TMP_PATH/vendor.patch.dat -t $WORK_OUT_PATH/ 
 mv -f $WORK_TMP_PATH/firmware-update -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/META-INF -t $WORK_SRC_PATH/ 
-mv -f $WORK_TMP_PATH/compatibility.zip $WORK_OUT_PATH/ 
 

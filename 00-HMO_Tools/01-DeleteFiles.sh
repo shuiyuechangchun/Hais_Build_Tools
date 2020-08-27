@@ -14,6 +14,7 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/BuiltInPrintService
 /system/app/WallpaperBackup
 /system/app/BluetoothMidiService
+/system/app/goodix_sz
 /system/app/GooglePrintRecommendationService
 /system/app/MiLinkService2
 /system/app/Joyose
@@ -27,7 +28,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/HybridAccessory
 /system/app/HybridPlatform
 /system/app/KSICibaEngine
-/system/app/mab
 /system/app/mi_connect_service
 /system/app/Mipay
 /system/app/MiPlayClient
