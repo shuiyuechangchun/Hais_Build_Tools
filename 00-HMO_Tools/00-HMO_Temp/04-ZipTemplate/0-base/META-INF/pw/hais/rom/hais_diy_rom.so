@@ -8,6 +8,9 @@ busybox rm -rf /data/lost+found
 busybox rm -rf /data/magisk_backup_*
 busybox rm -rf /mnt/vendor/persist/lost+found
 
+ui_print() {
+	echo -n -e "$1\n"
+}
 
 #替换system所有文件
 repType=system
@@ -16,10 +19,7 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 		tmpPath=${file%/*}									#刷机包中的路径
 		sysfile=${repType}${file##*${repType}_files}	#准备要替换或增加的目标文件
 		sysPath=${sysfile%/*}					#准备要替换或增加的文件
-		echo "- 备份并替换 $file"
-		echo "mkdir -p /$sysPath"
-		echo "cp  $file /$sysfile"
-		echo "chmod 644 /$sysfile"
+		ui_print "- 备份并替换 $file"
 		mkdir -p /$sysPath					#创建目标目录 /system/app/Via/
 		cp  $file /$sysfile					#替换文件
 		chmod 644 /$sysfile					#修复权限
@@ -33,10 +33,7 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 		tmpPath=${file%/*}									#刷机包中的路径
 		sysfile=${repType}${file##*${repType}_files}	#准备要替换或增加的目标文件
 		sysPath=${sysfile%/*}					#准备要替换或增加的文件
-		echo "- 备份并替换 $file"
-		echo "mkdir -p /$sysPath"
-		echo "cp  $file /$sysfile"
-		echo "chmod 644 /$sysfile"
+		ui_print "- 备份并替换 $file"
 		mkdir -p /$sysPath					#创建目标目录 /system/app/Via/
 		cp  $file /$sysfile					#替换文件
 		chmod 644 /$sysfile					#修复权限
@@ -51,10 +48,7 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 		tmpPath=${file%/*}									#刷机包中的路径
 		sysfile=${repType}${file##*${repType}_files}	#准备要替换或增加的目标文件
 		sysPath=${sysfile%/*}					#准备要替换或增加的文件
-		echo "- 备份并替换 $file"
-		echo "mkdir -p /$sysPath"
-		echo "cp  $file /$sysfile"
-		echo "chmod 644 /$sysfile"
+		ui_print "- 备份并替换 $file"
 		mkdir -p /$sysPath					#创建目标目录 /system/app/Via/
 		cp  $file /$sysfile					#替换文件
 		chmod 644 /$sysfile					#修复权限
@@ -68,17 +62,14 @@ for file in `find $BASH_PATH/${repType}_files/* -type f`
 		tmpPath=${file%/*}									#刷机包中的路径
 		sysfile=${repType}${file##*${repType}_files}	#准备要替换或增加的目标文件
 		sysPath=${sysfile%/*}					#准备要替换或增加的文件
-		echo "- 备份并替换 $file"
-		echo "mkdir -p /$sysPath"
-		echo "cp  $file /$sysfile"
-		echo "chmod 644 /$sysfile"
+		ui_print "- 备份并替换 $file"
 		mkdir -p /$sysPath					#创建目标目录 /system/app/Via/
 		cp  $file /$sysfile					#替换文件
 		chmod 644 /$sysfile					#修复权限
 	done
 	
 	
-echo "关闭桌面日记"
+ui_print "关闭桌面日记"
 home=/data/user_de/0/com.miui.home/cache/debug_log
 busybox chattr -i $home
 rm -rf $home
@@ -144,6 +135,8 @@ for file in $AdCreateFiles ; do
 		busybox mkdir -p $(dirname "$file")
 		busybox touch $file
 		busybox chmod 000 $file
+	else
+		ui_print $file
 	fi
 done
 
@@ -151,11 +144,11 @@ done
 #调用自定义apk文件
 haisConfig='/sdcard/HaisConfig.sh'
 if [ -e "$haisConfig" ];then 
-	echo "启用自定义扩展"
+	ui_print "启用自定义扩展"
 	rm -rf "/tmp/mHaisExtended.log"
 	busybox sh $haisConfig | tee -a "/tmp/mHaisExtended.log"	#运行扩展脚本
 else
-	#默认删除编译
+	ui_print "删除编译数据"
 	busybox rm -rf /data/dalvik-cache
 	busybox rm -rf /data/system/package_cache
 fi

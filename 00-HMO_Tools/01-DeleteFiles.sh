@@ -2,8 +2,6 @@
 BINS=$PWD/00-Bins				#依赖目录
 source $BINS/_init_hais_tools_		#依赖目录
 
-#/system/app/securityadd
-#/system/app/goodix_sz
 DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/VoiceAssist
 /system/app/VoiceTrigger
@@ -78,7 +76,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/framework/boot-voip-common.vdex
 /system/framework/boot-WfdCommon.vdex
 /system/media/wallpaper
-/system/app/CatcherPatch
 /system/app/MiuiAccessibility
 /system/priv-app/ContentExtension
 /system/priv-app/NewHome
@@ -139,7 +136,37 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/etc/auto-install.json
 /system/vendor/data-app
 /system/etc/fake_cdrom_install.iso
-/system/app/SogouInput
+/system/app/PowerChecker
+/system/app/goodix_sz
+/system/app/FidoCryptoService
+/system/app/FidoAuthen
+/system/app/FidoClient
+/system/media/audio/notifications/Bottle.ogg
+/system/media/audio/notifications/Bubble.ogg
+/system/media/audio/notifications/Bullfrog.ogg
+/system/media/audio/notifications/Burst.ogg
+/system/media/audio/notifications/Chirp.ogg
+/system/media/audio/notifications/Clank.ogg
+/system/media/audio/notifications/Crystal.ogg
+/system/media/audio/notifications/FadeIn.ogg
+/system/media/audio/notifications/FadeOut.ogg
+/system/media/audio/notifications/Flute.ogg
+/system/media/audio/notifications/Fresh.ogg
+/system/media/audio/notifications/Frog.ogg
+/system/media/audio/notifications/Harp.ogg
+/system/media/audio/notifications/IncomingMessage.ogg
+/system/media/audio/notifications/MessageSent.ogg
+/system/media/audio/notifications/Moment.ogg
+/system/media/audio/notifications/Potion.ogg
+/system/media/audio/notifications/Radar.ogg
+/system/media/audio/notifications/Spring.ogg
+/system/media/audio/notifications/Swoosh.ogg
+/system/media/audio/alarms/AlarmClock.ogg
+/system/media/audio/alarms/Beep.ogg
+/system/media/audio/alarms/Breeze.ogg
+/system/media/audio/alarms/Chimes.ogg
+/system/media/audio/alarms/Morning.ogg
+/system/media/audio/alarms/Sunrise.ogg
 /verity_key"
 
 DELETE_VENDOR="/vendor/app/GFManager/
@@ -151,9 +178,7 @@ DELETE_VENDOR="/vendor/app/GFManager/
 /vendor/etc/spk_cal_pinknoise.wav
 /vendor/etc/spk_cal_silence.wav
 /vendor/etc/spk_cal_whitenoise.wav
-/vendor/etc/test.wav
-"
-
+/vendor/etc/test.wav"
 
 
 ROM_SYSTEM=$WORK_SRC_PATH/system

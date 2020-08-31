@@ -80,6 +80,7 @@ package_extract_file("firmware-update/logo.img", "/dev/block/bootdevice/by-name/
 package_extract_file("firmware-update/vbmeta.img", "/dev/block/bootdevice/by-name/vbmeta");
 
 
+
 ui_print("--------------------------------");
 ui_print("----　　　刷入Magisk　　　      ");
 ui_print("--------------------------------");
