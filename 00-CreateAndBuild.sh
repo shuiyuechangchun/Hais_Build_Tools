@@ -5,7 +5,7 @@ ROM_FILE=${1}									#ROM文件
 IS_ZIP=${2}										#是否极限压缩,1-9
 if [ ! -n "$ROM_FILE" ] ; then echo "请传入ROM路径";exit;fi;
 if [ ! -n "$IS_ZIP" ] ; then IS_ZIP=1;fi;
-ROM_BUILD_FILE="./11-Build_Temp/Hais_Build_Tools_${1##*/}"
+ROM_BUILD_FILE="./11-Build_Temp/Build_${1##*/}"
 
 #开始做准备工作
 chmod 0777 *

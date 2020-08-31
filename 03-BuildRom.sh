@@ -40,6 +40,9 @@ case "$DeviceName" in
 	"crux")
 		DevicePathName="XiaoMi_Mi9Pro_Crux"
 	;;
+	"perseus")
+		DevicePathName="XiaoMi_Mix3_Perseus"
+	;;
 esac
 
 show "---------------- 打包 ${DeviceName}-${RomVersion} ----------------"

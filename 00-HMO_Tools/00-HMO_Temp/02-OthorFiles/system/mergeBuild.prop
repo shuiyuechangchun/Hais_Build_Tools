@@ -80,7 +80,6 @@ debug.mdpcomp.logs=0
 dalvik.vm.dex2oat-minidebuginfo=false
 persist.sys.qlogd=0
 persist.sys.perf.debug=false
-ro.fod.dimlayer.enable=false
 
 
 # 以下来自雄氏老方

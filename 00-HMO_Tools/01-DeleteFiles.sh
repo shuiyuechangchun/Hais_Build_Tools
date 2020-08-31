@@ -14,7 +14,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/BuiltInPrintService
 /system/app/WallpaperBackup
 /system/app/BluetoothMidiService
-/system/app/goodix_sz
 /system/app/GooglePrintRecommendationService
 /system/app/MiLinkService2
 /system/app/Joyose
@@ -22,7 +21,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/CatchLog
 /system/app/Cit
 /system/app/CtsShimPrebuilt
-/system/app/FidoAuthen
 /system/app/FM
 /system/app/HTMLViewer
 /system/app/HybridAccessory
@@ -108,8 +106,6 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/PhotoTable
 /system/app/mid_test
 /system/app/MiuiVpnSdkManager
-/system/app/FidoClient
-/system/app/FidoCryptoService
 /system/app/AutoTest
 /system/app/AutoRegistration
 /system/app/PrintRecommendationService
