@@ -29,16 +29,7 @@ $BINS/boot/repackimg.sh >> $LOG_FILE
 mv -f $BINS/boot/image-new.img $WORK_OUT_PATH/boot.img
 bash $BINS/boot/cleanup.sh
 
-sed -i 's/secure=0/secure=1/' $WORK_SRC_PATH/vendor/default.prop
-sed -i 's/,verify//' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-sed -i 's/forceencrypt=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-sed -i 's/forcefdeorfbe=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-sed -i 's/fileencryption=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-sed -i 's/.dmverity=true/.dmverity=false/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
-
-
 show "分发文件到目录，结束解包流程"
-
 rm -rf $WORK_TMP_PATH/system.img $WORK_TMP_PATH/vendor.img 
 mv -f $WORK_TMP_PATH/system_file_contexts $WORK_TMP_PATH/system_fs_config -t $WORK_SRC_PATH/ 
 mv -f $WORK_TMP_PATH/vendor_file_contexts $WORK_TMP_PATH/vendor_fs_config -t $WORK_SRC_PATH/ 
