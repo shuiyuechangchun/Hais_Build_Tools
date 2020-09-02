@@ -52,6 +52,14 @@ for file in `find ${OthorFiles}/init.qcom.rc/* -type f` ;do
 	doInsert $file $WORK_SRC_PATH
 done
 
+
+show ">>>>>>不知名优化"
+OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles	#文件来源目录
+SYS_FILE=/system/system/etc/device_features/perseus.xml	#系统文件所在路径
+for file in `find ${OthorFiles}/device_features/* -type f` ;do
+	doInsert $file $WORK_SRC_PATH
+done
+
 show ">>>>>>添加第三方WebView支持（需要置入WebView）"
 OthorFiles=$TOOLS_HMO_TEMP/02-OthorFiles/framework-res.apk
 SYS_FILE=/system/system/framework/framework-res.apk	#系统文件所在路径
