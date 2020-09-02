@@ -91,6 +91,11 @@ run_program("/sbin/mkdir", "/system/app/Magisk", "-p");
 run_program("/sbin/cp", "/tmp/Hais/Magisk/common/magisk.apk","/system/app/Magisk/Magisk.apk");
 run_program("/sbin/chmod","644","/system/app/Magisk/Magisk.apk");
 
+run_program("/sbin/mkdir", "/tmp/Hais/CloseEncrypt", "-p");
+package_extract_file("META-INF/pw/hais/rom/CloseEncrypt.zip", "/tmp/Hais/CloseEncrypt.zip");
+run_program("/sbin/unzip", "/tmp/Hais/CloseEncrypt.zip","-d", "/tmp/Hais/CloseEncrypt");
+run_program("/sbin/sh", "/tmp/Hais/CloseEncrypt/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/Hais/CloseEncrypt.zip");
+
 
 ui_print("--------------------------------");
 ui_print("----　　   删除临时文件  　　   ");
