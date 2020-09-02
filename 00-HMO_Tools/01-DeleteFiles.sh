@@ -51,6 +51,7 @@ DELETE_SYSTEM="/system/app/AiAsstVision
 /system/app/YouDaoEngine
 /system/app/Zman
 /system/app/mab
+/system/app/CatcherPatch
 /system/data-app
 /system/framework/arm
 /system/framework/arm64
