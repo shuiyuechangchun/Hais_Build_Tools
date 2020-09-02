@@ -97,4 +97,4 @@ mkdir -p "$path"
 rm -rf "${path}/${DeviceName^}_${RomVersion}"
 mv -f "${RomPath}/" "${path}"
 
-#rm -rf ${BASE_PATH}
+rm -rf ${BASE_PATH}
