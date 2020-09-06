@@ -28,5 +28,14 @@ $WORK_BAK_PATH/system/system/priv-app/MiuiHome
 $WORK_BAK_PATH/system/system/priv-app/QuickSearchBox
 " &
 
+createMagisk ${1} "谷歌服务" "
+$WORK_BAK_PATH/system/system/product/priv-app/GmsCore
+$WORK_BAK_PATH/system/system/product/priv-app/GoogleOneTimeInitializer
+$WORK_BAK_PATH/system/system/product/priv-app/GooglePartnerSetup
+$WORK_BAK_PATH/system/system/product/priv-app/GooglePlayServicesUpdater
+$WORK_BAK_PATH/system/system/product/priv-app/GoogleServicesFramework
+$WORK_BAK_PATH/system/system/product/priv-app/ConfigUpdater
+" &
+
 wait
 
