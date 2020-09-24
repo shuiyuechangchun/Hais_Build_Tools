@@ -272,7 +272,6 @@ DELETE_VENDOR="/vendor/app/GFManager/
 /vendor/app/pasrservice
 /vendor/app/QDMA-UI
 /vendor/app/QDMA
-/vendor/app/TimeService
 /vendor/overlay/ChinaMobileFrameworksRes
 /vendor/overlay/CtNetworkSettingRes
 /vendor/overlay/DisplayCutoutEmulationCorner
