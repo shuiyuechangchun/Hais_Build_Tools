@@ -83,13 +83,13 @@ mv "${WORK_TMP_PATH}/${RomName}.tmp" "${RomPath}/${fileName}"
 show ">>>>正在制作 面具 文件"
 bash ./04-CreateMagisk.sh $DevicePathName
 
-#show ">>>>正在压缩 备份 文件"
-#rm -rf "${WORK_BAK_PATH}/firmware-update"
-#rm -rf "${WORK_BAK_PATH}/META-INF/META-INF/pw"
-#7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
+show ">>>>正在压缩 备份 文件"
+rm -rf "${WORK_BAK_PATH}/firmware-update"
+rm -rf "${WORK_BAK_PATH}/META-INF/META-INF/pw"
+7z a -tzip -r "${RomPath}/ROM精简文件备份.zip" "${WORK_BAK_PATH}/*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
 
-#show ">>>>正在压缩 日记 文件"
-#7z a -tzip -r "${RomPath}/打包日记【排查Bug用】.zip"  "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
+show ">>>>正在压缩 日记 文件"
+7z a -tzip -r "${RomPath}/打包日记【排查Bug用】.zip"  "${LOG_FILE}*" -mx=${ZIP_LEVEL} >>$LOG_FILE 
 
 show ">>>>正在移动最终文件到ROM目录"
 path="${BASE_PATH}/../Q群：616490741/$DevicePathName"
