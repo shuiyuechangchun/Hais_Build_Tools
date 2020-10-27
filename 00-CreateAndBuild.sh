@@ -26,7 +26,6 @@ echo ">开始0${IS_ZIP}级编译：${ROM_FILE}"
 cd ./$ROM_BUILD_FILE
 bash ./01-UnpackRom.sh ../../$ROM_FILE
 bash ./02-StartHMO.sh ../../$ROM_FILE
-exit
 bash ./03-BuildRom.sh ../../$ROM_FILE
 cd $BASE_PATH
 
