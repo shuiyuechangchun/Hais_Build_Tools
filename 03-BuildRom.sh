@@ -45,6 +45,17 @@ case "$DeviceName" in
 	;;
 esac
 
+
+show "---------------- 处理去除强制加密 ----------------"
+if [ "$DeviceName" != "grus" ] && [ "$DeviceName" != "perseus" ] ;then 
+	sed -i 's/secure=0/secure=1/' $WORK_SRC_PATH/vendor/default.prop
+	sed -i 's/,verify//' $WORK_SRC_PATH/vendor/etc/fstab.qcom
+	sed -i 's/forceencrypt=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
+	sed -i 's/forcefdeorfbe=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
+	sed -i 's/fileencryption=/encryptable=/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
+	sed -i 's/.dmverity=true/.dmverity=false/' $WORK_SRC_PATH/vendor/etc/fstab.qcom
+fi
+
 show "---------------- 打包 ${DeviceName}-${RomVersion} ----------------"
 nowDate=$(date "+%Y.%m.%d")
 mkdir -p $WORK_TMP_PATH

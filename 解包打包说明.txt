@@ -1,0 +1,19 @@
+准备工作：
+	1、首先要安装和配置好工具环境，具体请入群查看群共享视频 616490741 
+	2、下载miui官方ROM,放在上级目录，也就是要跟 Hais_Build_Tools 同级,(当然也可以尝试其它目录)
+	
+	
+手动解包打包：
+	1、解包命令 sudo bash ./01-UnpackRom.sh ../ROM名称
+	2、优化命令 sudo bash ./02-StartHMO.sh
+	3、打包命令 sudo bash ./03-BuildRom.sh
+	注：请按顺序执行，并且不要重复执行。
+	
+单一打包：
+	执行命令 sudo bash 00-CreateAndBuild.sh ../ROM名称 压缩等级1-9
+	
+
+全自动解包打包：
+	执行命令 sudo bash ./99-AutoBuildAll.sh 
+	即可把 Hais_Build_Tools上级目录的所有.ZIP文件进行解包打包(所以请确保此目录没有其它zip文件)。
+

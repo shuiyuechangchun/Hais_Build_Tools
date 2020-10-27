@@ -212,11 +212,11 @@ createMagisk(){  #创建Magisk面具模块
 	rm -rf "${MagiskPath}"
 	mkdir -p "$MagiskPath"
 	unzip -o $TOOLS_HMO_TEMP/Magisk_Template.zip -d "$MagiskPath" >>$LOG_FILE
-	sed -i "s/id=hais_lite_test/id=hais_lite_${MagiskName}/" $MagiskPath/module.prop
+	sed -i "s/id=hais_lite_test/id=hais_lite_${3}/" $MagiskPath/module.prop
 	sed -i "s/name=HaisMagiskTmp/name=${MagiskName}_${RomVersion}/" $MagiskPath/module.prop
 	sed -i "s/version=0/version=${RomVersion}/" $MagiskPath/module.prop
 	sed -i "s/versionCode=0/versionCode=${NowDay}/" $MagiskPath/module.prop
-	for file in $3 ; do
+	for file in $4 ; do
 		path=$(dirname ${file/$WORK_BAK_PATH\/system/$MagiskPath})
 		mkdir -p $path
 		cp -rp "${file}" $path

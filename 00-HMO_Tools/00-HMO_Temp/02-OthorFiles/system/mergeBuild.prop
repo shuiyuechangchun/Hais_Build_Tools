@@ -1,6 +1,8 @@
 ro.rom.author=Hais
-#不知名优化
+persist.logd.limit=off
+sys.miui.ndcd=off
 debug.sf.latch_unsignaled=1
+
 mi.extras=true
 ro.secure=0
 ro.miui.cust_variant=cn
@@ -57,8 +59,10 @@ ro.vendor.audio.soundtrigger.sensitivity=true
 vendor.audio.soundtrigger.sensitivity=true
 
 #SQLite Turbo
+debug.sqlite.wal.poolsize=6
+windowsmgr.max_events_per_sec=280
 debug.sqlite.journalmode=OFF
-debug.sqlite.syncmode=0
+debug.sqlite.wal.syncmode=OFF
 ro.debuggable=0
 persist.android.strictmode=0
 ro.config.nocheckin=1
