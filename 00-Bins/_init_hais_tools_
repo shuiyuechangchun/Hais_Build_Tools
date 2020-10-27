@@ -100,8 +100,17 @@ repairFsAndCtx(){	#修复 Fs 和 Ctx
 		fi
 	fi
 	
-	echo "$(echo $sysFile | sed 's/system\///') 0000 0000 ${filePermission}" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
-	echo "$(echo $sysFile | sed 's/system\//\//') u:object_r:${fileType}:s0" >> "${WORK_SRC_PATH}/${repariType}_file_contexts"
+	FileUrl=$(echo $sysFile | sed 's/system\///')
+
+	add_fs_config=`grep "$FileUrl " "${WORK_SRC_PATH}/${repariType}_fs_config"`
+	if [ ! -n "$add_fs_config" ] ; then 
+		echo "$(echo $sysFile | sed 's/system\///') 0000 0000 ${filePermission}" >> "${WORK_SRC_PATH}/${repariType}_fs_config"
+	fi
+	
+	add_file_contexts=`grep "$FileUrl " "${WORK_SRC_PATH}/${repariType}_file_contexts"`
+	if [ ! -n "$add_file_contexts" ] ; then 
+		echo "$(echo $sysFile | sed 's/system\//\//') u:object_r:${fileType}:s0" >> "${WORK_SRC_PATH}/${repariType}_file_contexts"
+	fi
 }
 
 deleteBack(){	#传入文件或者文件夹，单个	deleteBack 需要删除的文件.txt
