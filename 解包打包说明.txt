@@ -1,6 +1,7 @@
 准备工作：
 	1、首先要安装和配置好工具环境，具体请入群查看群共享视频 616490741 
-	2、下载miui官方ROM,放在上级目录，也就是要跟 Hais_Build_Tools 同级,(当然也可以尝试其它目录)
+    2、安装依赖 sudo apt update && sudo apt install git zip unzip default-jdk brotli python3 sudo cpio p7zip-full aapt zipalign
+	3、下载miui官方ROM,放在上级目录，也就是要跟 Hais_Build_Tools 同级,(当然也可以尝试其它目录)
 	
 	
 手动解包打包：
