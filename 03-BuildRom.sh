@@ -46,6 +46,9 @@ case "$DeviceName" in
 	"platina")
 		DevicePathName="XiaoMi_MI8Lite_Platina"
 	;;
+	"pyxis")
+		DevicePathName="XiaoMi_MI9CC_Pyxis"
+	;;
 esac
 
 
