@@ -47,7 +47,13 @@ case "$DeviceName" in
 		DevicePathName="XiaoMi_MI8Lite_Platina"
 	;;
 	"pyxis")
-		DevicePathName="XiaoMi_MI9CC_Pyxis"
+		DevicePathName="XiaoMi_MICC9_Pyxis"
+	;;
+	"vela")
+		DevicePathName="XiaoMi_MICC9_MT_Vela"
+	;;
+	"laurus")
+		DevicePathName="XiaoMi_MICC9e_Laurus"
 	;;
 esac
 
