@@ -51,7 +51,7 @@ unImage(){
 	python3 $sdat2img $WORK_TMP_PATH/${1}.transfer.list $WORK_TMP_PATH/${1}.new.dat  $WORK_TMP_PATH/${1}.img | tee -a $LOG_FILE
 	show "解压 ${1}.img"
 	mkdir -p $WORK_SRC_PATH/${1}
-	python3 $imgextractor $WORK_TMP_PATH/${1}.img $WORK_SRC_PATH/${1}  | tee -a $LOG_FILE
+	sudo python3 $imgextractor $WORK_TMP_PATH/${1}.img $WORK_SRC_PATH/${1}  | tee -a $LOG_FILE
 }
 
 zipImage(){ #保持动态分区打包
